@@ -19,6 +19,7 @@ export const Header = () => {
             <nav className="hidden md:flex space-x-6">
               <a href="#" className="text-gray-600 hover:text-gray-900 transition-colors">PRODUCTS</a>
               <a href="#" className="text-gray-600 hover:text-gray-900 transition-colors">PRICING</a>
+              <Link to="/shark-investors" className="text-gray-600 hover:text-gray-900 transition-colors">SHARK INVESTORS</Link>
               <a href="#" className="text-gray-600 hover:text-gray-900 transition-colors">COMMUNITY</a>
               <a href="#" className="text-gray-600 hover:text-gray-900 transition-colors">MEDIA</a>
               <a href="#" className="text-gray-600 hover:text-gray-900 transition-colors">SUPPORT</a>
