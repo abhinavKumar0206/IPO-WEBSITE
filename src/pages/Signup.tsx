@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -6,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
+import { useUser } from "@/contexts/UserContext";
 
 const Signup = () => {
   const [name, setName] = useState("");
@@ -15,6 +15,7 @@ const Signup = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { setUser } = useUser();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -24,6 +25,9 @@ const Signup = () => {
     
     // Simulate signup process
     setTimeout(() => {
+      // Save user data to context and localStorage
+      setUser({ name, email });
+      
       toast({
         title: "Account created successfully!",
         description: "Welcome to BlueStock. You have been logged in.",
