@@ -1,20 +1,35 @@
 
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
+import { useToast } from "@/hooks/use-toast";
 
 const Signup = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [agreeToTerms, setAgreeToTerms] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+  const { toast } = useToast();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
+    
     console.log("Signup attempt:", { name, email, password, agreeToTerms });
+    
+    // Simulate signup process
+    setTimeout(() => {
+      toast({
+        title: "Account created successfully!",
+        description: "Welcome to BlueStock. You have been logged in.",
+      });
+      navigate("/dashboard");
+    }, 1000);
   };
 
   return (
@@ -95,10 +110,10 @@ const Signup = () => {
             <div>
               <Button
                 type="submit"
-                disabled={!agreeToTerms}
+                disabled={!agreeToTerms || isLoading}
                 className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white disabled:opacity-50"
               >
-                Sign up
+                {isLoading ? "Creating account..." : "Sign up"}
               </Button>
             </div>
 
