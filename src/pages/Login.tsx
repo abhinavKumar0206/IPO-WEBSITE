@@ -1,23 +1,44 @@
+
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
+import { useToast } from "@/hooks/use-toast";
+import { useUser } from "@/contexts/UserContext";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [keepSignedIn, setKeepSignedIn] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const { toast } = useToast();
+  const { setUser } = useUser();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
+    
     console.log("Login attempt:", { email, password, keepSignedIn });
     
-    // Simulate successful login and redirect to dashboard
-    // In a real app, you'd validate credentials first
-    navigate("/dashboard");
+    // Simulate successful login and save user data
+    setTimeout(() => {
+      // Extract name from email (simple approach for demo)
+      const name = email.split('@')[0].replace(/[0-9]/g, '').replace(/[._-]/g, ' ').trim();
+      const formattedName = name.charAt(0).toUpperCase() + name.slice(1);
+      
+      setUser({ name: formattedName, email });
+      
+      toast({
+        title: "Login successful!",
+        description: "Welcome back to BlueStock.",
+      });
+      
+      navigate("/dashboard");
+      setIsLoading(false);
+    }, 1000);
   };
 
   return (
@@ -84,9 +105,10 @@ const Login = () => {
             <div>
               <Button
                 type="submit"
-                className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white"
+                disabled={isLoading}
+                className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white disabled:opacity-50"
               >
-                Sign in
+                {isLoading ? "Signing in..." : "Sign in"}
               </Button>
             </div>
 
