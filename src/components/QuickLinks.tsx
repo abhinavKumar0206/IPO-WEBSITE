@@ -1,13 +1,32 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ExternalLink } from "lucide-react";
 
 const links = [
-  { name: "NSE India", url: "https://www.nseindia.com", description: "National Stock Exchange" },
-  { name: "BSE India", url: "https://www.bseindia.com", description: "Bombay Stock Exchange" },
-  { name: "SEBI", url: "https://www.sebi.gov.in", description: "Securities and Exchange Board" },
-  { name: "Money Control", url: "https://www.moneycontrol.com", description: "Financial News & Analysis" },
+  { 
+    name: "NSE India", 
+    url: "https://www.nseindia.com", 
+    description: "Adipisicing elit, sed do eiusmod tempor",
+    icon: "🔶"
+  },
+  { 
+    name: "BSE India", 
+    url: "https://www.bseindia.com", 
+    description: "Adipisicing elit, sed do eiusmod tempor",
+    icon: "📊"
+  },
+  { 
+    name: "SEBI", 
+    url: "https://www.sebi.gov.in", 
+    description: "Adipisicing elit, sed do eiusmod tempor",
+    icon: "🏛️"
+  },
+  { 
+    name: "Money Control", 
+    url: "https://www.moneycontrol.com", 
+    description: "Adipisicing elit, sed do eiusmod tempor",
+    icon: "💰"
+  },
 ];
 
 export const QuickLinks = () => {
@@ -15,23 +34,25 @@ export const QuickLinks = () => {
     <Card>
       <CardHeader>
         <CardTitle className="text-lg font-semibold">Quick Links</CardTitle>
+        <p className="text-sm text-gray-500">Adipisicing elit, sed do eiusmod tempor</p>
       </CardHeader>
       <CardContent className="space-y-3">
         {links.map((link) => (
-          <Button
-            key={link.name}
-            variant="outline"
-            className="w-full justify-between h-auto p-3"
-            asChild
-          >
-            <a href={link.url} target="_blank" rel="noopener noreferrer">
-              <div className="text-left">
-                <div className="font-medium">{link.name}</div>
-                <div className="text-xs text-gray-500">{link.description}</div>
-              </div>
-              <ExternalLink className="w-4 h-4" />
-            </a>
-          </Button>
+          <div key={link.name} className="flex items-center justify-between p-3 border rounded-lg hover:bg-gray-50">
+            <div className="flex items-center space-x-3">
+              <span className="text-lg">{link.icon}</span>
+              <span className="font-medium">{link.name}</span>
+            </div>
+            <Button
+              variant="outline"
+              size="sm"
+              asChild
+            >
+              <a href={link.url} target="_blank" rel="noopener noreferrer">
+                Visit Now
+              </a>
+            </Button>
+          </div>
         ))}
       </CardContent>
     </Card>
