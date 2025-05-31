@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 
 const menuItems = [
   { title: "Dashboard", icon: LayoutDashboard, url: "/dashboard", active: true },
-  { title: "Manage IPO", icon: FileText, url: "#" },
+  { title: "Manage IPO", icon: FileText, url: "/manage-ipo" },
   { title: "IPO Subscription", icon: FileText, url: "#" },
   { title: "IPO Allotment", icon: FileText, url: "#" },
   { title: "Settings", icon: Settings, url: "#" },
