@@ -4,7 +4,10 @@ import { UserProfile } from "@/components/UserProfile";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { IPOTable } from "@/components/IPOTable";
-import { LayoutDashboard, FileText, Users, Settings, Key, HelpCircle, Search } from "lucide-react";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { LayoutDashboard, FileText, Users, Settings, Key, HelpCircle, Search, Upload } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const menuItems = [
@@ -20,6 +23,7 @@ const menuItems = [
 
 const ManageIPO = () => {
   const [showRegisterForm, setShowRegisterForm] = useState(false);
+  const [activeTab, setActiveTab] = useState("IPO Information");
 
   if (showRegisterForm) {
     return (
@@ -88,140 +92,284 @@ const ManageIPO = () => {
             <header className="bg-white border-b px-6 py-4 flex items-center justify-between">
               <div className="flex items-center space-x-4">
                 <SidebarTrigger />
-                <Button 
-                  variant="ghost" 
-                  onClick={() => setShowRegisterForm(false)}
-                  className="text-blue-600 hover:text-blue-700"
-                >
-                  ← Back to IPO List
-                </Button>
-                <h1 className="text-2xl font-bold text-gray-900">Register IPO</h1>
+                <h1 className="text-2xl font-bold text-gray-900">Upcoming IPO Information</h1>
+                <span className="text-gray-500">Manage your IPO Details</span>
               </div>
               <div className="flex items-center space-x-4">
                 <div className="relative">
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
                   <Input 
-                    placeholder="Search IPO" 
+                    placeholder="Search" 
                     className="pl-10 w-64 bg-gray-50 border-gray-200"
                   />
                 </div>
+                <Button 
+                  onClick={() => setShowRegisterForm(false)}
+                  variant="outline"
+                  className="text-blue-600 border-blue-600"
+                >
+                  Cancel
+                </Button>
+                <Button className="bg-blue-600 hover:bg-blue-700">
+                  Register
+                </Button>
                 <UserProfile />
               </div>
             </header>
             
-            <main className="p-6 bg-gray-50">
-              <div className="max-w-6xl mx-auto bg-white rounded-lg shadow-sm p-6">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                  {/* Company Details */}
-                  <div className="space-y-6">
+            <main className="flex h-screen">
+              {/* Left Sidebar Navigation */}
+              <div className="w-80 bg-gray-50 border-r p-6">
+                <div className="space-y-2">
+                  <div
+                    className={`p-3 rounded-lg cursor-pointer flex items-center space-x-3 ${
+                      activeTab === "IPO Information" ? "bg-blue-100 text-blue-700" : "hover:bg-gray-100"
+                    }`}
+                    onClick={() => setActiveTab("IPO Information")}
+                  >
+                    <div className="w-5 h-5 rounded-full bg-blue-500 flex items-center justify-center">
+                      <span className="text-xs text-white">i</span>
+                    </div>
+                    <span className="font-medium">IPO Information</span>
+                  </div>
+                  <div
+                    className={`p-3 rounded-lg cursor-pointer flex items-center space-x-3 ${
+                      activeTab === "IPO Info" ? "bg-blue-100 text-blue-700" : "hover:bg-gray-100"
+                    }`}
+                    onClick={() => setActiveTab("IPO Info")}
+                  >
+                    <div className="w-5 h-5">
+                      <FileText className="w-5 h-5" />
+                    </div>
+                    <span className="font-medium">IPO Info</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Main Content */}
+              <div className="flex-1 p-6 overflow-y-auto">
+                <div className="max-w-4xl">
+                  <div className="mb-6">
+                    <h2 className="text-2xl font-bold text-gray-900 mb-2">IPO Information</h2>
+                    <p className="text-gray-600">Enter IPO Details</p>
+                  </div>
+
+                  <div className="bg-white rounded-lg border p-6 space-y-8">
+                    {/* Company Logo Section */}
                     <div>
-                      <h2 className="text-lg font-semibold text-gray-900 mb-4">Company Details</h2>
-                      <div className="space-y-4">
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">Company Name</label>
-                          <Input placeholder="Enter company name" />
+                      <h3 className="text-lg font-semibold text-gray-900 mb-4">Company Logo</h3>
+                      <div className="flex items-center space-x-4">
+                        <div className="w-16 h-16 bg-orange-100 rounded-lg flex items-center justify-center">
+                          <div className="w-12 h-12 bg-gradient-to-r from-orange-400 to-red-500 rounded-lg"></div>
                         </div>
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">Company Logo</label>
-                          <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
-                            <p className="text-gray-500">Click to upload logo</p>
-                          </div>
+                          <h4 className="font-medium text-gray-900">NSE India</h4>
+                          <p className="text-sm text-gray-500">Tech Lead</p>
+                          <p className="text-sm text-gray-500">Pune</p>
                         </div>
+                        <div className="flex space-x-2 ml-auto">
+                          <Button className="bg-blue-600 hover:bg-blue-700">
+                            <Upload className="w-4 h-4 mr-2" />
+                            Upload Logo
+                          </Button>
+                          <Button variant="outline">Delete</Button>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Form Fields */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div>
+                        <Label htmlFor="companyName" className="text-sm font-medium text-gray-700 mb-2 block">
+                          Company Name
+                        </Label>
+                        <Input 
+                          id="companyName"
+                          placeholder="Vodafone Idea"
+                          defaultValue="Vodafone Idea"
+                        />
+                      </div>
+
+                      <div>
+                        <Label htmlFor="priceBand" className="text-sm font-medium text-gray-700 mb-2 block">
+                          Price Band
+                        </Label>
+                        <Input 
+                          id="priceBand"
+                          placeholder="Not Issued"
+                          defaultValue="Not Issued"
+                        />
+                      </div>
+
+                      <div>
+                        <Label htmlFor="open" className="text-sm font-medium text-gray-700 mb-2 block">
+                          Open
+                        </Label>
+                        <Input 
+                          id="open"
+                          placeholder="Not Issued"
+                          defaultValue="Not Issued"
+                        />
+                      </div>
+
+                      <div>
+                        <Label htmlFor="close" className="text-sm font-medium text-gray-700 mb-2 block">
+                          Close
+                        </Label>
+                        <Input 
+                          id="close"
+                          placeholder="Not Issued"
+                          defaultValue="Not Issued"
+                        />
+                      </div>
+
+                      <div>
+                        <Label htmlFor="issueSize" className="text-sm font-medium text-gray-700 mb-2 block">
+                          Issue Size
+                        </Label>
+                        <Input 
+                          id="issueSize"
+                          placeholder="2300 Cr."
+                          defaultValue="2300 Cr."
+                        />
+                      </div>
+
+                      <div>
+                        <Label htmlFor="issueType" className="text-sm font-medium text-gray-700 mb-2 block">
+                          Issue Type
+                        </Label>
+                        <Select defaultValue="book-built">
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select Issue Type" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="book-built">Book Built</SelectItem>
+                            <SelectItem value="fixed-price">Fixed Price</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+
+                      <div>
+                        <Label htmlFor="listingDate" className="text-sm font-medium text-gray-700 mb-2 block">
+                          LISTING DATE
+                        </Label>
+                        <Input 
+                          id="listingDate"
+                          placeholder="Not Issued"
+                          defaultValue="Not Issued"
+                        />
+                      </div>
+
+                      <div>
+                        <Label htmlFor="status" className="text-sm font-medium text-gray-700 mb-2 block">
+                          Status
+                        </Label>
+                        <Select>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select Status" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="ongoing">Ongoing</SelectItem>
+                            <SelectItem value="coming">Coming</SelectItem>
+                            <SelectItem value="new-listed">New Listed</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    </div>
+
+                    {/* New Listed IPO Details Section */}
+                    <div className="border-t pt-8">
+                      <h3 className="text-lg font-semibold text-gray-900 mb-6">NEW LISTED IPO DETAILS (WHEN IPO GET LISTED)</h3>
+                      
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">About Company</label>
-                          <textarea 
-                            className="w-full p-3 border border-gray-300 rounded-md resize-none h-24"
-                            placeholder="Enter company description"
+                          <Label htmlFor="ipoPrice" className="text-sm font-medium text-gray-700 mb-2 block">
+                            IPO PRICE
+                          </Label>
+                          <Input 
+                            id="ipoPrice"
+                            placeholder="₹ 383"
+                            defaultValue="₹ 383"
+                          />
+                        </div>
+
+                        <div>
+                          <Label htmlFor="listingPrice" className="text-sm font-medium text-gray-700 mb-2 block">
+                            LISTING PRICE
+                          </Label>
+                          <Input 
+                            id="listingPrice"
+                            placeholder="₹ 435"
+                            defaultValue="₹ 435"
+                          />
+                        </div>
+
+                        <div>
+                          <Label htmlFor="listingGain" className="text-sm font-medium text-gray-700 mb-2 block">
+                            LISTING GAIN
+                          </Label>
+                          <Input 
+                            id="listingGain"
+                            placeholder="13.58 %"
+                            defaultValue="13.58 %"
+                          />
+                        </div>
+
+                        <div>
+                          <Label htmlFor="listingDateNew" className="text-sm font-medium text-gray-700 mb-2 block">
+                            LISTING DATE
+                          </Label>
+                          <Input 
+                            id="listingDateNew"
+                            type="date"
+                            defaultValue="2024-05-30"
+                          />
+                        </div>
+
+                        <div>
+                          <Label htmlFor="cmp" className="text-sm font-medium text-gray-700 mb-2 block">
+                            CMP
+                          </Label>
+                          <Input 
+                            id="cmp"
+                            placeholder="₹410"
+                            defaultValue="₹410"
+                          />
+                        </div>
+
+                        <div>
+                          <Label htmlFor="currentReturn" className="text-sm font-medium text-gray-700 mb-2 block">
+                            CURRENT RETURN
+                          </Label>
+                          <Input 
+                            id="currentReturn"
+                            placeholder="7.05 %"
+                            defaultValue="7.05 %"
+                          />
+                        </div>
+
+                        <div>
+                          <Label htmlFor="rhp" className="text-sm font-medium text-gray-700 mb-2 block">
+                            RHP
+                          </Label>
+                          <Input 
+                            id="rhp"
+                            placeholder="Enter RHP PDF Link"
+                          />
+                        </div>
+
+                        <div>
+                          <Label htmlFor="drhp" className="text-sm font-medium text-gray-700 mb-2 block">
+                            DRHP
+                          </Label>
+                          <Input 
+                            id="drhp"
+                            placeholder="Enter DRHP PDF Link"
                           />
                         </div>
                       </div>
                     </div>
-
-                    {/* Price Details */}
-                    <div>
-                      <h2 className="text-lg font-semibold text-gray-900 mb-4">Price Details</h2>
-                      <div className="grid grid-cols-2 gap-4">
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">Price Band (Low)</label>
-                          <Input placeholder="₹ 0" />
-                        </div>
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">Price Band (High)</label>
-                          <Input placeholder="₹ 0" />
-                        </div>
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">Minimum Quantity</label>
-                          <Input placeholder="0" />
-                        </div>
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">Maximum Quantity</label>
-                          <Input placeholder="0" />
-                        </div>
-                      </div>
-                    </div>
                   </div>
-
-                  {/* IPO Details */}
-                  <div className="space-y-6">
-                    <div>
-                      <h2 className="text-lg font-semibold text-gray-900 mb-4">IPO Details</h2>
-                      <div className="space-y-4">
-                        <div className="grid grid-cols-2 gap-4">
-                          <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Open Date</label>
-                            <Input type="date" />
-                          </div>
-                          <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Close Date</label>
-                            <Input type="date" />
-                          </div>
-                        </div>
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">Issue Size</label>
-                          <Input placeholder="₹ 0 Cr." />
-                        </div>
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">Issue Type</label>
-                          <select className="w-full p-3 border border-gray-300 rounded-md">
-                            <option>Book Built</option>
-                            <option>Fixed Price</option>
-                          </select>
-                        </div>
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">Listing Date</label>
-                          <Input type="date" />
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Listed Details */}
-                    <div>
-                      <h2 className="text-lg font-semibold text-gray-900 mb-4">Listed Details</h2>
-                      <div className="space-y-4">
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">Exchange</label>
-                          <select className="w-full p-3 border border-gray-300 rounded-md">
-                            <option>NSE</option>
-                            <option>BSE</option>
-                            <option>Both</option>
-                          </select>
-                        </div>
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">Symbol</label>
-                          <Input placeholder="Enter symbol" />
-                        </div>
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">ISIN</label>
-                          <Input placeholder="Enter ISIN" />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex justify-end space-x-4 mt-8 pt-6 border-t">
-                  <Button variant="outline" onClick={() => setShowRegisterForm(false)}>Cancel</Button>
-                  <Button className="bg-blue-600 hover:bg-blue-700">Register IPO</Button>
                 </div>
               </div>
             </main>
