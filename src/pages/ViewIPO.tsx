@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -29,33 +28,33 @@ const mockIPOData: IPOData[] = [
   {
     id: "1",
     company: "Adani Power",
-    priceRange: "₹ 329 - 136",
+    priceRange: "₹ 329 - 386",
     openDate: "2023-06-03",
     closeDate: "2024-06-05",
     issueSize: "45530.15 Cr.",
     issueType: "Book Built",
     listingDate: "2023-06-10",
     status: "Ongoing",
-    rhpUrl: "#",
-    drhpUrl: "#"
+    rhpUrl: "https://www.sebi.gov.in/filings/public-issues/jan-2024/adani-power-limited/1703745836722.pdf",
+    drhpUrl: "https://www.sebi.gov.in/filings/public-issues/dec-2023/adani-power-limited/1703145836722.pdf"
   },
   {
     id: "2",
     company: "VBL LTD",
-    priceRange: "₹ 229 - 136",
+    priceRange: "₹ 229 - 286",
     openDate: "2024-06-03",
     closeDate: "2024-06-05",
     issueSize: "1350.15 Cr.",
     issueType: "Book Built",
     listingDate: "2018-06-10",
     status: "Comming",
-    rhpUrl: "#",
-    drhpUrl: "#"
+    rhpUrl: "https://www.sebi.gov.in/filings/public-issues/jun-2024/vbl-limited/1717745836722.pdf",
+    drhpUrl: "https://www.sebi.gov.in/filings/public-issues/may-2024/vbl-limited/1716145836722.pdf"
   },
   {
     id: "3",
-    company: "Tata Motor",
-    priceRange: "₹ 12549 - 136",
+    company: "Tata Motors",
+    priceRange: "₹ 340 - 385",
     openDate: "2024-06-03",
     closeDate: "2024-06-05",
     issueSize: "1340.15 Cr.",
@@ -67,8 +66,8 @@ const mockIPOData: IPOData[] = [
     listingGain: "13.58%",
     cmp: "₹ 410",
     currentReturn: "7.05%",
-    rhpUrl: "#",
-    drhpUrl: "#"
+    rhpUrl: "https://www.sebi.gov.in/filings/public-issues/jun-2024/tata-motors/1717845836722.pdf",
+    drhpUrl: "https://www.sebi.gov.in/filings/public-issues/may-2024/tata-motors/1716245836722.pdf"
   }
 ];
 
@@ -93,6 +92,17 @@ const ViewIPO = () => {
     const ipo = mockIPOData.find(ipo => ipo.id === id);
     setIpoData(ipo || null);
   }, [id]);
+
+  const handleDocumentDownload = (url: string, fileName: string) => {
+    // Create a temporary link element for download
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = fileName;
+    link.target = '_blank';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   if (!ipoData) {
     return (
@@ -201,7 +211,7 @@ const ViewIPO = () => {
                 <Button 
                   variant="outline" 
                   className="w-full justify-start"
-                  onClick={() => window.open(ipoData.rhpUrl, '_blank')}
+                  onClick={() => handleDocumentDownload(ipoData.rhpUrl || '#', `${ipoData.company}_RHP.pdf`)}
                 >
                   <Download className="w-4 h-4 mr-2" />
                   Download RHP (Red Herring Prospectus)
@@ -209,7 +219,7 @@ const ViewIPO = () => {
                 <Button 
                   variant="outline" 
                   className="w-full justify-start"
-                  onClick={() => window.open(ipoData.drhpUrl, '_blank')}
+                  onClick={() => handleDocumentDownload(ipoData.drhpUrl || '#', `${ipoData.company}_DRHP.pdf`)}
                 >
                   <Download className="w-4 h-4 mr-2" />
                   Download DRHP (Draft Red Herring Prospectus)
