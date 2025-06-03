@@ -12,6 +12,7 @@ import ForgotPassword from "./pages/ForgotPassword";
 import SharkInvestors from "./pages/SharkInvestors";
 import Dashboard from "./pages/Dashboard";
 import ManageIPO from "./pages/ManageIPO";
+import ViewIPO from "./pages/ViewIPO";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -31,6 +32,7 @@ const App = () => (
             <Route path="/shark-investors" element={<SharkInvestors />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/manage-ipo" element={<ManageIPO />} />
+            <Route path="/ipo/:id" element={<ViewIPO />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

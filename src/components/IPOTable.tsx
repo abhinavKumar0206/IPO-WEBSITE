@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Eye, Trash, Edit } from "lucide-react";
+import { Link } from "react-router-dom";
 
 interface IPOData {
   id: string;
@@ -126,8 +127,10 @@ export const IPOTable = () => {
                   <Button size="sm" variant="ghost" className="p-1 h-8 w-8">
                     <Trash className="h-4 w-4 text-red-500" />
                   </Button>
-                  <Button size="sm" variant="ghost" className="p-1 h-8 w-8">
-                    <Eye className="h-4 w-4 text-gray-500" />
+                  <Button size="sm" variant="ghost" className="p-1 h-8 w-8" asChild>
+                    <Link to={`/ipo/${ipo.id}`}>
+                      <Eye className="h-4 w-4 text-gray-500" />
+                    </Link>
                   </Button>
                 </div>
               </TableCell>
