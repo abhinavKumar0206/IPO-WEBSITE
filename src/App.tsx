@@ -14,6 +14,7 @@ import Dashboard from "./pages/Dashboard";
 import ManageIPO from "./pages/ManageIPO";
 import ViewIPO from "./pages/ViewIPO";
 import BrokerComparison from "./pages/BrokerComparison";
+import Brokers from "./pages/Brokers";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -35,6 +36,7 @@ const App = () => (
             <Route path="/manage-ipo" element={<ManageIPO />} />
             <Route path="/ipo/:id" element={<ViewIPO />} />
             <Route path="/broker-comparison" element={<BrokerComparison />} />
+            <Route path="/brokers" element={<Brokers />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
