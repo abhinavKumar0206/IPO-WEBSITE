@@ -3,13 +3,14 @@ import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Star, MessageCircle, Users, CheckCircle, Info } from "lucide-react";
+import { Header } from "@/components/Header";
 
 interface BrokerData {
   name: string;
   rating: number;
   reviews: string;
   accounts: string;
-  logoColor: string;
+  logoUrl: string;
   features: string[];
   charges: {
     accountOpening: string;
@@ -17,6 +18,7 @@ interface BrokerData {
     delivery: string;
     intraday: string;
   };
+  description: string;
 }
 
 const brokersData: BrokerData[] = [
@@ -25,252 +27,120 @@ const brokersData: BrokerData[] = [
     rating: 4.5,
     reviews: "15K",
     accounts: "50.2K",
-    logoColor: "bg-purple-600",
+    logoUrl: "https://images.unsplash.com/photo-1551038247-3d9af20df552?w=100&h=100&fit=crop&crop=center",
     features: ["Equity", "Commodity", "Currency", "Futures", "Options"],
     charges: {
-      accountOpening: "₹ Rs. 0",
+      accountOpening: "₹ 0",
       maintenance: "₹300",
       delivery: "₹20",
       intraday: "₹20"
-    }
+    },
+    description: "Modern discount broker with advanced trading platform"
+  },
+  {
+    name: "Zerodha",
+    rating: 4.8,
+    reviews: "25K",
+    accounts: "80.5K",
+    logoUrl: "https://images.unsplash.com/photo-1494891848038-7bd202a2afeb?w=100&h=100&fit=crop&crop=center",
+    features: ["Equity", "Commodity", "Currency", "Futures", "Options"],
+    charges: {
+      accountOpening: "₹ 0",
+      maintenance: "₹300",
+      delivery: "₹0",
+      intraday: "₹20"
+    },
+    description: "India's largest discount broker with transparent pricing"
   },
   {
     name: "AngelOne",
     rating: 4.0,
-    reviews: "15K",
-    accounts: "50.2K",
-    logoColor: "bg-orange-500",
+    reviews: "18K",
+    accounts: "65.2K",
+    logoUrl: "https://images.unsplash.com/photo-1488972685288-c3fd157d7c7a?w=100&h=100&fit=crop&crop=center",
     features: ["Equity", "Commodity", "Currency", "Futures", "Options"],
     charges: {
-      accountOpening: "₹ Rs. 0",
-      maintenance: "₹300",
-      delivery: "₹20",
+      accountOpening: "₹ 0",
+      maintenance: "₹240",
+      delivery: "₹0",
       intraday: "₹20"
-    }
+    },
+    description: "Full-service broker with comprehensive research"
   },
   {
     name: "Groww",
     rating: 4.5,
-    reviews: "15K",
-    accounts: "50.2K",
-    logoColor: "bg-green-500",
+    reviews: "12K",
+    accounts: "40.8K",
+    logoUrl: "https://images.unsplash.com/photo-1493397212122-2b85dda8106b?w=100&h=100&fit=crop&crop=center",
     features: ["Equity", "Commodity", "Currency", "Futures", "Options"],
     charges: {
-      accountOpening: "₹ Rs. 0",
+      accountOpening: "₹ 0",
       maintenance: "₹300",
-      delivery: "₹20",
+      delivery: "₹0",
       intraday: "₹20"
-    }
+    },
+    description: "User-friendly platform for beginners and experienced traders"
   },
   {
     name: "Dhan",
-    rating: 4.5,
-    reviews: "15K",
-    accounts: "50.2K",
-    logoColor: "bg-green-600",
+    rating: 4.4,
+    reviews: "8K",
+    accounts: "25.2K",
+    logoUrl: "https://images.unsplash.com/photo-1551038247-3d9af20df552?w=100&h=100&fit=crop&crop=center",
     features: ["Equity", "Commodity", "Currency", "Futures", "Options"],
     charges: {
-      accountOpening: "₹ Rs. 0",
-      maintenance: "₹300",
-      delivery: "₹20",
+      accountOpening: "₹ 0",
+      maintenance: "₹0",
+      delivery: "₹0",
       intraday: "₹20"
-    }
+    },
+    description: "Advanced trading platform with zero AMC"
   },
   {
     name: "Alice Blue",
     rating: 4.0,
-    reviews: "15K",
-    accounts: "50.2K",
-    logoColor: "bg-blue-500",
+    reviews: "10K",
+    accounts: "35.5K",
+    logoUrl: "https://images.unsplash.com/photo-1494891848038-7bd202a2afeb?w=100&h=100&fit=crop&crop=center",
     features: ["Equity", "Commodity", "Currency", "Futures", "Options"],
     charges: {
-      accountOpening: "₹ Rs. 0",
+      accountOpening: "₹ 0",
       maintenance: "₹300",
-      delivery: "₹20",
-      intraday: "₹20"
-    }
-  },
-  {
-    name: "Axis Direct",
-    rating: 4.5,
-    reviews: "15K",
-    accounts: "50.2K",
-    logoColor: "bg-purple-700",
-    features: ["Equity", "Commodity", "Currency", "Futures", "Options"],
-    charges: {
-      accountOpening: "₹ Rs. 0",
-      maintenance: "₹300",
-      delivery: "₹20",
-      intraday: "₹20"
-    }
-  },
-  {
-    name: "Fyers",
-    rating: 4.5,
-    reviews: "15K",
-    accounts: "50.2K",
-    logoColor: "bg-blue-600",
-    features: ["Equity", "Commodity", "Currency", "Futures", "Options"],
-    charges: {
-      accountOpening: "₹ Rs. 0",
-      maintenance: "₹300",
-      delivery: "₹20",
-      intraday: "₹20"
-    }
-  },
-  {
-    name: "Geojit",
-    rating: 4.5,
-    reviews: "15K",
-    accounts: "50.2K",
-    logoColor: "bg-teal-600",
-    features: ["Equity", "Commodity", "Currency", "Futures", "Options"],
-    charges: {
-      accountOpening: "₹ Rs. 0",
-      maintenance: "₹300",
-      delivery: "₹20",
-      intraday: "₹20"
-    }
+      delivery: "₹0",
+      intraday: "₹15"
+    },
+    description: "Technology-driven discount broker"
   },
   {
     name: "HDFC Securities",
-    rating: 4.5,
-    reviews: "15K",
-    accounts: "50.2K",
-    logoColor: "bg-blue-700",
+    rating: 4.2,
+    reviews: "20K",
+    accounts: "75.3K",
+    logoUrl: "https://images.unsplash.com/photo-1488972685288-c3fd157d7c7a?w=100&h=100&fit=crop&crop=center",
     features: ["Equity", "Commodity", "Currency", "Futures", "Options"],
     charges: {
-      accountOpening: "₹ Rs. 0",
-      maintenance: "₹300",
-      delivery: "₹20",
-      intraday: "₹20"
-    }
+      accountOpening: "₹ 0",
+      maintenance: "₹500",
+      delivery: "₹25",
+      intraday: "₹25"
+    },
+    description: "Full-service broker with comprehensive research and advisory"
   },
   {
-    name: "IIFL Securities",
-    rating: 4.5,
-    reviews: "15K",
-    accounts: "50.2K",
-    logoColor: "bg-indigo-800",
+    name: "ICICI Direct",
+    rating: 4.1,
+    reviews: "22K",
+    accounts: "68.7K",
+    logoUrl: "https://images.unsplash.com/photo-1493397212122-2b85dda8106b?w=100&h=100&fit=crop&crop=center",
     features: ["Equity", "Commodity", "Currency", "Futures", "Options"],
     charges: {
-      accountOpening: "₹ Rs. 0",
-      maintenance: "₹300",
-      delivery: "₹20",
-      intraday: "₹20"
-    }
-  },
-  {
-    name: "Kotak Securities",
-    rating: 4.5,
-    reviews: "15K",
-    accounts: "50.2K",
-    logoColor: "bg-red-600",
-    features: ["Equity", "Commodity", "Currency", "Futures", "Options"],
-    charges: {
-      accountOpening: "₹ Rs. 0",
-      maintenance: "₹300",
-      delivery: "₹20",
-      intraday: "₹20"
-    }
-  },
-  {
-    name: "Motilal Oswal",
-    rating: 4.5,
-    reviews: "15K",
-    accounts: "50.2K",
-    logoColor: "bg-yellow-500",
-    features: ["Equity", "Commodity", "Currency", "Futures", "Options"],
-    charges: {
-      accountOpening: "₹ Rs. 0",
-      maintenance: "₹300",
-      delivery: "₹20",
-      intraday: "₹20"
-    }
-  },
-  {
-    name: "Nuvama",
-    rating: 4.5,
-    reviews: "15K",
-    accounts: "50.2K",
-    logoColor: "bg-red-500",
-    features: ["Equity", "Commodity", "Currency", "Futures", "Options"],
-    charges: {
-      accountOpening: "₹ Rs. 0",
-      maintenance: "₹300",
-      delivery: "₹20",
-      intraday: "₹20"
-    }
-  },
-  {
-    name: "Paytm Money",
-    rating: 4.5,
-    reviews: "15K",
-    accounts: "50.2K",
-    logoColor: "bg-blue-600",
-    features: ["Equity", "Commodity", "Currency", "Futures", "Options"],
-    charges: {
-      accountOpening: "₹ Rs. 0",
-      maintenance: "₹300",
-      delivery: "₹20",
-      intraday: "₹20"
-    }
-  },
-  {
-    name: "SBI Securities",
-    rating: 4.5,
-    reviews: "15K",
-    accounts: "50.2K",
-    logoColor: "bg-blue-800",
-    features: ["Equity", "Commodity", "Currency", "Futures", "Options"],
-    charges: {
-      accountOpening: "₹ Rs. 0",
-      maintenance: "₹300",
-      delivery: "₹20",
-      intraday: "₹20"
-    }
-  },
-  {
-    name: "Sharekhan",
-    rating: 4.0,
-    reviews: "15K",
-    accounts: "50.2K",
-    logoColor: "bg-orange-600",
-    features: ["Equity", "Commodity", "Currency", "Futures", "Options"],
-    charges: {
-      accountOpening: "₹ Rs. 0",
-      maintenance: "₹300",
-      delivery: "₹20",
-      intraday: "₹20"
-    }
-  },
-  {
-    name: "SMC Global",
-    rating: 4.0,
-    reviews: "15K",
-    accounts: "50.2K",
-    logoColor: "bg-green-700",
-    features: ["Equity", "Commodity", "Currency", "Futures", "Options"],
-    charges: {
-      accountOpening: "₹ Rs. 0",
-      maintenance: "₹300",
-      delivery: "₹20",
-      intraday: "₹20"
-    }
-  },
-  {
-    name: "5Paisa",
-    rating: 4.0,
-    reviews: "15K",
-    accounts: "50.2K",
-    logoColor: "bg-pink-600",
-    features: ["Equity", "Commodity", "Currency", "Futures", "Options"],
-    charges: {
-      accountOpening: "₹ Rs. 0",
-      maintenance: "₹300",
-      delivery: "₹20",
-      intraday: "₹20"
-    }
+      accountOpening: "₹ 0",
+      maintenance: "₹500",
+      delivery: "₹25",
+      intraday: "₹25"
+    },
+    description: "Established full-service broker with strong research"
   }
 ];
 
@@ -291,7 +161,7 @@ const StarRating = ({ rating }: { rating: number }) => {
 
 const BrokerCard = ({ broker }: { broker: BrokerData }) => {
   return (
-    <Card className="h-full">
+    <Card className="h-full bg-purple-50 border-purple-100">
       <CardContent className="p-6">
         <div className="flex justify-between items-start mb-4">
           <div className="flex-1">
@@ -312,14 +182,22 @@ const BrokerCard = ({ broker }: { broker: BrokerData }) => {
             <div className="mt-4">
               <p className="text-lg font-semibold text-gray-900 mb-2">Open Demat A/c for FREE</p>
               <div className="flex gap-2">
-                <Button variant="outline" size="sm">Open A/C ✈</Button>
-                <Button variant="link" size="sm">Learn More</Button>
+                <Button variant="outline" size="sm" className="bg-white hover:bg-gray-50">
+                  Open A/C ✈
+                </Button>
+                <Button variant="link" size="sm" className="text-purple-600">
+                  Learn More
+                </Button>
               </div>
             </div>
           </div>
           
-          <div className={`w-24 h-16 ${broker.logoColor} rounded-lg flex items-center justify-center`}>
-            <span className="text-white font-bold text-lg">{broker.name.charAt(0)}</span>
+          <div className="w-24 h-16 bg-purple-600 rounded-lg flex items-center justify-center overflow-hidden">
+            <img 
+              src={broker.logoUrl} 
+              alt={`${broker.name} logo`}
+              className="w-full h-full object-cover"
+            />
           </div>
         </div>
 
@@ -375,12 +253,18 @@ const BrokerCard = ({ broker }: { broker: BrokerData }) => {
 const Brokers = () => {
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="bg-white shadow-sm">
-        <div className="container mx-auto px-4 py-6">
-          <div className="text-center mb-2">
-            <h1 className="text-3xl font-bold text-purple-600 mb-2">
-              Made to<span className="text-green-500">Trade</span>
+      <Header />
+      
+      <div className="bg-white">
+        <div className="container mx-auto px-4 py-12">
+          <div className="text-center">
+            <h1 className="text-5xl font-bold mb-4">
+              <span className="text-purple-600">Made to</span>
+              <span className="text-green-500">Trade</span>
             </h1>
+            <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+              Compare and choose the best broker for your trading needs. Open your demat account with zero charges.
+            </p>
           </div>
         </div>
       </div>
