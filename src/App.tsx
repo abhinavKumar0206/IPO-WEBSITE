@@ -8,6 +8,7 @@ import { UserProvider } from "@/contexts/UserContext";
 import Index from "./pages/Index";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import SignupTrading from "./pages/SignupTrading";
 import ForgotPassword from "./pages/ForgotPassword";
 import SharkInvestors from "./pages/SharkInvestors";
 import Dashboard from "./pages/Dashboard";
@@ -30,6 +31,7 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path="/signup-trading" element={<SignupTrading />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/shark-investors" element={<SharkInvestors />} />
             <Route path="/dashboard" element={<Dashboard />} />
