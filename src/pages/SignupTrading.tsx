@@ -37,9 +37,15 @@ const SignupTrading = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-500 via-purple-600 to-black flex relative">
+    <div className={`min-h-screen flex relative transition-colors duration-300 ${
+      darkMode 
+        ? "bg-gradient-to-br from-blue-500 via-purple-600 to-black" 
+        : "bg-gradient-to-br from-blue-200 via-purple-200 to-gray-100"
+    }`}>
       {/* Dark Mode Toggle */}
-      <div className="absolute top-6 right-6 flex items-center gap-3 text-white z-10">
+      <div className={`absolute top-6 right-6 flex items-center gap-3 z-10 transition-colors duration-300 ${
+        darkMode ? "text-white" : "text-gray-800"
+      }`}>
         <span className="text-sm font-medium">Dark Mode</span>
         <Switch
           checked={darkMode}
@@ -49,7 +55,9 @@ const SignupTrading = () => {
       </div>
 
       {/* Left Section - Hero Content */}
-      <div className="flex-1 flex flex-col justify-center px-12 lg:px-16 text-white">
+      <div className={`flex-1 flex flex-col justify-center px-12 lg:px-16 transition-colors duration-300 ${
+        darkMode ? "text-white" : "text-gray-800"
+      }`}>
         <div className="max-w-2xl">
           <h1 className="text-5xl lg:text-6xl font-bold leading-tight mb-8">
             Navigate the Markets with Confidence
@@ -57,23 +65,41 @@ const SignupTrading = () => {
           
           {/* Feature Pills */}
           <div className="flex flex-wrap gap-4 mb-12">
-            <div className="bg-white/20 backdrop-blur-sm rounded-full px-6 py-3 border border-white/30">
+            <div className={`backdrop-blur-sm rounded-full px-6 py-3 border transition-colors duration-300 ${
+              darkMode 
+                ? "bg-white/20 border-white/30" 
+                : "bg-gray-800/10 border-gray-800/20"
+            }`}>
               <span className="text-sm font-medium">Advanced Technical Analysis/Charting Tools</span>
             </div>
-            <div className="bg-white/20 backdrop-blur-sm rounded-full px-6 py-3 border border-white/30">
+            <div className={`backdrop-blur-sm rounded-full px-6 py-3 border transition-colors duration-300 ${
+              darkMode 
+                ? "bg-white/20 border-white/30" 
+                : "bg-gray-800/10 border-gray-800/20"
+            }`}>
               <span className="text-sm font-medium">Community Feeds</span>
             </div>
-            <div className="bg-white/20 backdrop-blur-sm rounded-full px-6 py-3 border border-white/30">
+            <div className={`backdrop-blur-sm rounded-full px-6 py-3 border transition-colors duration-300 ${
+              darkMode 
+                ? "bg-white/20 border-white/30" 
+                : "bg-gray-800/10 border-gray-800/20"
+            }`}>
               <span className="text-sm font-medium">Customizable UI for Your Trading Style</span>
             </div>
-            <div className="bg-white/20 backdrop-blur-sm rounded-full px-6 py-3 border border-white/30">
+            <div className={`backdrop-blur-sm rounded-full px-6 py-3 border transition-colors duration-300 ${
+              darkMode 
+                ? "bg-white/20 border-white/30" 
+                : "bg-gray-800/10 border-gray-800/20"
+            }`}>
               <span className="text-sm font-medium">Customer Support</span>
             </div>
           </div>
 
           {/* Quote Symbol */}
           <div className="mb-6">
-            <div className="text-6xl text-cyan-400 font-bold">"</div>
+            <div className={`text-6xl font-bold transition-colors duration-300 ${
+              darkMode ? "text-cyan-400" : "text-blue-600"
+            }`}>"</div>
           </div>
 
           {/* Testimonial */}
@@ -88,7 +114,9 @@ const SignupTrading = () => {
               </div>
               <div>
                 <p className="font-semibold">Aaron O'Donnell</p>
-                <p className="text-sm text-orange-400">Pro Account</p>
+                <p className={`text-sm transition-colors duration-300 ${
+                  darkMode ? "text-orange-400" : "text-blue-600"
+                }`}>Pro Account</p>
               </div>
             </div>
           </div>
@@ -96,13 +124,19 @@ const SignupTrading = () => {
       </div>
 
       {/* Right Section - Signup Form */}
-      <div className="w-full max-w-md bg-gray-900 p-8 flex flex-col justify-center">
+      <div className={`w-full max-w-md p-8 flex flex-col justify-center transition-colors duration-300 ${
+        darkMode ? "bg-gray-900" : "bg-white"
+      }`}>
         <div className="mb-8">
           <div className="flex gap-4 mb-6">
             <Button
               type="button"
               variant="outline"
-              className="flex-1 bg-white text-gray-900 border-0 hover:bg-gray-100"
+              className={`flex-1 border-0 transition-colors duration-300 ${
+                darkMode 
+                  ? "bg-white text-gray-900 hover:bg-gray-100" 
+                  : "bg-gray-800 text-white hover:bg-gray-700"
+              }`}
             >
               <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">
                 <path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -124,59 +158,87 @@ const SignupTrading = () => {
             </Button>
           </div>
 
-          <div className="text-center text-gray-400 mb-6">or</div>
+          <div className={`text-center mb-6 transition-colors duration-300 ${
+            darkMode ? "text-gray-400" : "text-gray-600"
+          }`}>or</div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <Label htmlFor="firstName" className="text-gray-300">First Name</Label>
+                <Label htmlFor="firstName" className={`transition-colors duration-300 ${
+                  darkMode ? "text-gray-300" : "text-gray-700"
+                }`}>First Name</Label>
                 <Input
                   id="firstName"
                   type="text"
                   value={firstName}
                   onChange={(e) => setFirstName(e.target.value)}
-                  className="bg-gray-800 border-gray-700 text-white placeholder-gray-400 mt-1"
+                  className={`mt-1 transition-colors duration-300 ${
+                    darkMode 
+                      ? "bg-gray-800 border-gray-700 text-white placeholder-gray-400" 
+                      : "bg-gray-50 border-gray-300 text-gray-900 placeholder-gray-500"
+                  }`}
                   placeholder="Jam"
                   required
                 />
               </div>
               <div>
-                <Label htmlFor="lastName" className="text-gray-300">Last Name</Label>
+                <Label htmlFor="lastName" className={`transition-colors duration-300 ${
+                  darkMode ? "text-gray-300" : "text-gray-700"
+                }`}>Last Name</Label>
                 <Input
                   id="lastName"
                   type="text"
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
-                  className="bg-gray-800 border-gray-700 text-white placeholder-gray-400 mt-1"
+                  className={`mt-1 transition-colors duration-300 ${
+                    darkMode 
+                      ? "bg-gray-800 border-gray-700 text-white placeholder-gray-400" 
+                      : "bg-gray-50 border-gray-300 text-gray-900 placeholder-gray-500"
+                  }`}
                   required
                 />
               </div>
             </div>
 
             <div>
-              <Label htmlFor="email" className="text-gray-300">Email Address</Label>
+              <Label htmlFor="email" className={`transition-colors duration-300 ${
+                darkMode ? "text-gray-300" : "text-gray-700"
+              }`}>Email Address</Label>
               <Input
                 id="email"
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="bg-gray-800 border-gray-700 text-white placeholder-gray-400 mt-1"
+                className={`mt-1 transition-colors duration-300 ${
+                  darkMode 
+                    ? "bg-gray-800 border-gray-700 text-white placeholder-gray-400" 
+                    : "bg-gray-50 border-gray-300 text-gray-900 placeholder-gray-500"
+                }`}
                 placeholder="you@example.com"
                 required
               />
             </div>
 
             <div>
-              <Label htmlFor="password" className="text-gray-300">Password</Label>
+              <Label htmlFor="password" className={`transition-colors duration-300 ${
+                darkMode ? "text-gray-300" : "text-gray-700"
+              }`}>Password</Label>
               <Input
                 id="password"
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="bg-gray-800 border-gray-700 text-white placeholder-gray-400 mt-1"
+                className={`mt-1 transition-colors duration-300 ${
+                  darkMode 
+                    ? "bg-gray-800 border-gray-700 text-white placeholder-gray-400" 
+                    : "bg-gray-50 border-gray-300 text-gray-900 placeholder-gray-500"
+                }`}
                 required
               />
-              <p className="text-xs text-gray-400 mt-1">At least 8 characters, with numbers and symbols.</p>
+              <p className={`text-xs mt-1 transition-colors duration-300 ${
+                darkMode ? "text-gray-400" : "text-gray-600"
+              }`}>At least 8 characters, with numbers and symbols.</p>
             </div>
 
             <div className="flex items-start space-x-2">
@@ -184,9 +246,15 @@ const SignupTrading = () => {
                 id="remember-device"
                 checked={rememberDevice}
                 onCheckedChange={(checked) => setRememberDevice(!!checked)}
-                className="mt-1 border-gray-600 data-[state=checked]:bg-blue-600"
+                className={`mt-1 transition-colors duration-300 ${
+                  darkMode 
+                    ? "border-gray-600 data-[state=checked]:bg-blue-600" 
+                    : "border-gray-400 data-[state=checked]:bg-blue-600"
+                }`}
               />
-              <Label htmlFor="remember-device" className="text-sm text-gray-300 leading-relaxed">
+              <Label htmlFor="remember-device" className={`text-sm leading-relaxed transition-colors duration-300 ${
+                darkMode ? "text-gray-300" : "text-gray-700"
+              }`}>
                 Remember this device
               </Label>
             </div>
@@ -199,9 +267,13 @@ const SignupTrading = () => {
               {isLoading ? "Creating Account..." : "Create Account"}
             </Button>
 
-            <p className="text-xs text-gray-400 text-center">
+            <p className={`text-xs text-center transition-colors duration-300 ${
+              darkMode ? "text-gray-400" : "text-gray-600"
+            }`}>
               By logging in, you agree to follow our{" "}
-              <a href="#" className="text-cyan-400 hover:underline">
+              <a href="#" className={`hover:underline transition-colors duration-300 ${
+                darkMode ? "text-cyan-400" : "text-blue-600"
+              }`}>
                 terms of service
               </a>
             </p>
