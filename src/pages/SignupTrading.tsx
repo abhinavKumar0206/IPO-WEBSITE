@@ -1,5 +1,6 @@
 
 import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -7,6 +8,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/hooks/use-toast";
 import { useUser } from "@/contexts/UserContext";
+import { TrendingUp } from "lucide-react";
 
 const SignupTrading = () => {
   const [firstName, setFirstName] = useState("");
@@ -17,7 +19,8 @@ const SignupTrading = () => {
   const [darkMode, setDarkMode] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
-  const { setUser } = useUser();
+  const { setUser, user } = useUser();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -31,10 +34,52 @@ const SignupTrading = () => {
       
       toast({
         title: "Account created successfully!",
-        description: "Welcome to the trading platform.",
+        description: "Welcome to the trading platform. Redirecting to dashboard...",
       });
+
+      // Redirect to trading dashboard after successful signup
+      setTimeout(() => {
+        navigate("/trading-dashboard");
+      }, 1500);
+      
+      setIsLoading(false);
     }, 1000);
   };
+
+  // If user is already logged in, show different content
+  if (user) {
+    return (
+      <div className={`min-h-screen flex items-center justify-center transition-colors duration-300 ${
+        darkMode 
+          ? "bg-gradient-to-br from-blue-500 via-purple-600 to-black" 
+          : "bg-gradient-to-br from-blue-200 via-purple-200 to-gray-100"
+      }`}>
+        <div className={`max-w-md p-8 rounded-lg transition-colors duration-300 ${
+          darkMode ? "bg-gray-900 text-white" : "bg-white text-gray-900"
+        }`}>
+          <div className="text-center">
+            <TrendingUp className="w-16 h-16 mx-auto mb-4 text-cyan-500" />
+            <h2 className="text-2xl font-bold mb-4">Welcome back, {user.name}!</h2>
+            <p className={`mb-6 transition-colors duration-300 ${
+              darkMode ? "text-gray-300" : "text-gray-600"
+            }`}>
+              You're already logged in. Ready to start trading?
+            </p>
+            <Link to="/trading-dashboard">
+              <Button className="w-full bg-cyan-500 hover:bg-cyan-600 text-black font-semibold mb-4">
+                Go to Trading Dashboard
+              </Button>
+            </Link>
+            <Link to="/dashboard">
+              <Button variant="outline" className="w-full">
+                Go to Main Dashboard
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={`min-h-screen flex relative transition-colors duration-300 ${
@@ -52,6 +97,23 @@ const SignupTrading = () => {
           onCheckedChange={setDarkMode}
           className="data-[state=checked]:bg-cyan-500"
         />
+      </div>
+
+      {/* Link to Trading Dashboard */}
+      <div className="absolute top-6 left-6 z-10">
+        <Link to="/trading-dashboard">
+          <Button 
+            variant="outline" 
+            className={`transition-colors duration-300 ${
+              darkMode 
+                ? "border-white/30 text-white hover:bg-white/10" 
+                : "border-gray-800/30 text-gray-800 hover:bg-gray-800/10"
+            }`}
+          >
+            <TrendingUp className="w-4 h-4 mr-2" />
+            View Trading Dashboard
+          </Button>
+        </Link>
       </div>
 
       {/* Left Section - Hero Content */}
@@ -277,6 +339,17 @@ const SignupTrading = () => {
                 terms of service
               </a>
             </p>
+
+            <div className={`text-center text-sm transition-colors duration-300 ${
+              darkMode ? "text-gray-400" : "text-gray-600"
+            }`}>
+              Already have an account?{" "}
+              <Link to="/login" className={`hover:underline transition-colors duration-300 ${
+                darkMode ? "text-cyan-400" : "text-blue-600"
+              }`}>
+                Sign in here
+              </Link>
+            </div>
           </form>
         </div>
       </div>

@@ -1,14 +1,18 @@
 
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from "recharts";
-import { Search, Bell, Settings, Globe, BarChart3, BookOpen, TrendingUp } from "lucide-react";
+import { Search, Bell, Settings, Globe, BarChart3, BookOpen, TrendingUp, User } from "lucide-react";
+import { useUser } from "@/contexts/UserContext";
+import { UserProfile } from "@/components/UserProfile";
 
 const TradingDashboard = () => {
+  const { user } = useUser();
   const [stopPrice, setStopPrice] = useState("400.00");
   const [quantity, setQuantity] = useState("100");
   
@@ -48,18 +52,47 @@ const TradingDashboard = () => {
     },
   };
 
+  // Generate account number based on user email for demo
+  const generateAccountNumber = (email: string) => {
+    if (!email) return "44337289992";
+    const hash = email.split('').reduce((a, b) => {
+      a = ((a << 5) - a) + b.charCodeAt(0);
+      return a & a;
+    }, 0);
+    return Math.abs(hash).toString().padStart(11, '0');
+  };
+
+  const getInitials = (name: string) => {
+    if (!name) return "P";
+    return name
+      .split(" ")
+      .map(word => word.charAt(0))
+      .join("")
+      .toUpperCase()
+      .slice(0, 2);
+  };
+
   return (
     <div className="min-h-screen bg-gray-900 text-white">
       {/* Top Navigation Bar */}
       <div className="flex items-center justify-between p-4 bg-gray-800 border-b border-gray-700">
         <div className="flex items-center gap-4">
           <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
-            <span className="text-sm font-bold">P</span>
+            <span className="text-sm font-bold">{getInitials(user?.name || "Guest")}</span>
           </div>
           <div className="text-sm">
-            <div className="font-medium">Pratik Patil</div>
-            <div className="text-gray-400">Account: 44337289992</div>
+            <div className="font-medium">{user?.name || "Guest User"}</div>
+            <div className="text-gray-400">Account: {generateAccountNumber(user?.email || "")}</div>
+            <div className="text-xs text-gray-500">{user?.email || "guest@example.com"}</div>
           </div>
+          {!user && (
+            <Link to="/signup-trading">
+              <Button variant="outline" size="sm" className="ml-4 border-cyan-500 text-cyan-400 hover:bg-cyan-500 hover:text-black">
+                <User className="w-4 h-4 mr-2" />
+                Sign Up for Trading
+              </Button>
+            </Link>
+          )}
         </div>
 
         <div className="flex items-center gap-6">
@@ -79,6 +112,7 @@ const TradingDashboard = () => {
             />
           </div>
           <Bell className="w-5 h-5 text-gray-400" />
+          {user && <UserProfile />}
         </div>
       </div>
 
@@ -235,17 +269,49 @@ const TradingDashboard = () => {
 
           {/* Right Trading Panel */}
           <div className="w-80 bg-gray-800 p-4 border-l border-gray-700">
+            {/* User Status for Trading */}
+            {!user ? (
+              <div className="mb-6 p-4 bg-gray-700 rounded-lg border border-gray-600">
+                <h3 className="text-lg font-semibold text-cyan-400 mb-2">Start Trading</h3>
+                <p className="text-gray-300 text-sm mb-4">Sign up to access full trading features and track your portfolio.</p>
+                <Link to="/signup-trading">
+                  <Button className="w-full bg-cyan-500 hover:bg-cyan-600 text-black font-semibold">
+                    Create Trading Account
+                  </Button>
+                </Link>
+              </div>
+            ) : (
+              <div className="mb-6 p-4 bg-gray-700 rounded-lg border border-gray-600">
+                <h3 className="text-lg font-semibold text-green-400 mb-2">Welcome, {user.name}!</h3>
+                <p className="text-gray-300 text-xs">Account: {generateAccountNumber(user.email)}</p>
+                <p className="text-gray-400 text-xs">{user.email}</p>
+              </div>
+            )}
+
             {/* Buy/Sell Buttons */}
             <div className="flex gap-2 mb-6">
-              <Button className="flex-1 bg-green-500 hover:bg-green-600 text-white">Buy</Button>
-              <Button className="flex-1 bg-red-500 hover:bg-red-600 text-white">Sell</Button>
+              <Button 
+                className="flex-1 bg-green-500 hover:bg-green-600 text-white"
+                disabled={!user}
+              >
+                Buy
+              </Button>
+              <Button 
+                className="flex-1 bg-red-500 hover:bg-red-600 text-white"
+                disabled={!user}
+              >
+                Sell
+              </Button>
             </div>
 
             {/* Order Form */}
             <div className="space-y-4 mb-6">
               <div>
                 <Label className="text-gray-300">Order Type</Label>
-                <select className="w-full mt-1 p-2 bg-gray-700 border border-gray-600 rounded text-white">
+                <select 
+                  className="w-full mt-1 p-2 bg-gray-700 border border-gray-600 rounded text-white"
+                  disabled={!user}
+                >
                   <option>Market Price</option>
                   <option>Limit</option>
                   <option>Stop</option>
@@ -258,6 +324,7 @@ const TradingDashboard = () => {
                   value={quantity}
                   onChange={(e) => setQuantity(e.target.value)}
                   className="mt-1 bg-gray-700 border-gray-600 text-white"
+                  disabled={!user}
                 />
                 <div className="flex gap-2 mt-2">
                   {["10", "50", "100", "500"].map((qty) => (
@@ -267,6 +334,7 @@ const TradingDashboard = () => {
                       size="sm"
                       onClick={() => setQuantity(qty)}
                       className="text-xs border-gray-600 text-gray-300"
+                      disabled={!user}
                     >
                       {qty}
                     </Button>
@@ -276,7 +344,10 @@ const TradingDashboard = () => {
 
               <div>
                 <Label className="text-gray-300">Time-in-Force</Label>
-                <select className="w-full mt-1 p-2 bg-gray-700 border border-gray-600 rounded text-white">
+                <select 
+                  className="w-full mt-1 p-2 bg-gray-700 border border-gray-600 rounded text-white"
+                  disabled={!user}
+                >
                   <option>Day</option>
                   <option>GTC</option>
                   <option>IOC</option>
@@ -284,7 +355,7 @@ const TradingDashboard = () => {
               </div>
 
               <div className="flex items-center gap-2">
-                <Switch />
+                <Switch disabled={!user} />
                 <Label className="text-gray-300">Stop Price</Label>
               </div>
 
@@ -294,6 +365,7 @@ const TradingDashboard = () => {
                   onChange={(e) => setStopPrice(e.target.value)}
                   className="bg-gray-700 border-gray-600 text-white"
                   placeholder="400.00"
+                  disabled={!user}
                 />
               </div>
 
@@ -316,8 +388,11 @@ const TradingDashboard = () => {
                 </div>
               </div>
 
-              <Button className="w-full bg-cyan-500 hover:bg-cyan-600 text-black font-semibold">
-                Buy MSFT
+              <Button 
+                className="w-full bg-cyan-500 hover:bg-cyan-600 text-black font-semibold"
+                disabled={!user}
+              >
+                {user ? "Buy MSFT" : "Sign Up to Trade"}
               </Button>
 
               <Button variant="ghost" className="w-full text-gray-300">
