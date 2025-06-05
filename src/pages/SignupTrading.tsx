@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/hooks/use-toast";
 import { useUser } from "@/contexts/UserContext";
 
@@ -13,6 +14,7 @@ const SignupTrading = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberDevice, setRememberDevice] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const { setUser } = useUser();
@@ -35,7 +37,17 @@ const SignupTrading = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-500 via-purple-600 to-black flex">
+    <div className="min-h-screen bg-gradient-to-br from-blue-500 via-purple-600 to-black flex relative">
+      {/* Dark Mode Toggle */}
+      <div className="absolute top-6 right-6 flex items-center gap-3 text-white z-10">
+        <span className="text-sm font-medium">Dark Mode</span>
+        <Switch
+          checked={darkMode}
+          onCheckedChange={setDarkMode}
+          className="data-[state=checked]:bg-cyan-500"
+        />
+      </div>
+
       {/* Left Section - Hero Content */}
       <div className="flex-1 flex flex-col justify-center px-12 lg:px-16 text-white">
         <div className="max-w-2xl">
@@ -59,20 +71,24 @@ const SignupTrading = () => {
             </div>
           </div>
 
+          {/* Quote Symbol */}
+          <div className="mb-6">
+            <div className="text-6xl text-cyan-400 font-bold">"</div>
+          </div>
+
           {/* Testimonial */}
-          <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 border border-white/20">
-            <div className="flex items-start gap-4">
+          <div className="mb-8">
+            <p className="text-xl mb-6 leading-relaxed">
+              Game changing trading software that helped me <span className="font-semibold">analysis market trends</span> easily and <span className="font-semibold">make better decisions</span>
+            </p>
+            
+            <div className="flex items-center gap-4">
               <div className="w-12 h-12 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full flex items-center justify-center text-white font-bold text-lg">
                 AO
               </div>
               <div>
-                <p className="text-lg mb-3">
-                  "Game changing trading software that helped me <span className="font-semibold">analysis market trends</span> easily and <span className="font-semibold">make better decisions</span>"
-                </p>
-                <div>
-                  <p className="font-semibold">Aaron O'Donnell</p>
-                  <p className="text-sm text-blue-300">Pro Account</p>
-                </div>
+                <p className="font-semibold">Aaron O'Donnell</p>
+                <p className="text-sm text-orange-400">Pro Account</p>
               </div>
             </div>
           </div>
