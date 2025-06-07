@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -66,13 +65,8 @@ const SignupTrading = () => {
               You're already logged in. Ready to start trading?
             </p>
             <Link to="/trading-dashboard">
-              <Button className="w-full bg-cyan-500 hover:bg-cyan-600 text-black font-semibold mb-4">
+              <Button className="w-full bg-cyan-500 hover:bg-cyan-600 text-black font-semibold">
                 Go to Trading Dashboard
-              </Button>
-            </Link>
-            <Link to="/dashboard">
-              <Button variant="outline" className="w-full">
-                Go to Main Dashboard
               </Button>
             </Link>
           </div>
