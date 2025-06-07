@@ -34,7 +34,7 @@ const SignupTrading = () => {
       
       toast({
         title: "Account created successfully!",
-        description: "Welcome to the trading platform. Redirecting to dashboard...",
+        description: "Welcome to the trading platform. Redirecting to trading dashboard...",
       });
 
       // Redirect to trading dashboard after successful signup
