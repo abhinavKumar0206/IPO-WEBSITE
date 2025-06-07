@@ -1,308 +1,287 @@
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from "recharts";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Search, Settings, MoreHorizontal } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Search, Settings, MoreHorizontal, TrendingUp, TrendingDown } from "lucide-react";
 import { useUser } from "@/contexts/UserContext";
 import { UserProfile } from "@/components/UserProfile";
 
 const FinanceDashboard = () => {
   const { user } = useUser();
-  const [selectedTimeframe, setSelectedTimeframe] = useState("D");
+  const [selectedTimeframe, setSelectedTimeframe] = useState("1D");
 
-  // Mock financial data
+  // Mock data for indexes
   const indexData = [
-    { name: "S&P 500 ETF", symbol: "SPY", price: 509.90, change: -3.05, changePercent: -0.40 },
-    { name: "Dow Jones ETF", symbol: "DIA", price: 30.000, change: -3.05, changePercent: 0.56 },
-    { name: "NASDAQ", symbol: "QQQ", price: 452.90, change: -3.05, changePercent: -0.96 }
+    { name: "S&P 500", symbol: "SPX", price: "5,431.60", change: "+12.44", changePercent: "+0.23%" },
+    { name: "Dow Jones", symbol: "DJI", price: "42,175.11", change: "+139.53", changePercent: "+0.33%" },
+    { name: "NASDAQ", symbol: "IXIC", price: "16,794.87", change: "-23.26", changePercent: "-0.14%" },
+    { name: "Russell 2000", symbol: "RUT", price: "2,245.52", change: "+8.91", changePercent: "+0.40%" }
   ];
 
   const chartData = [
-    { time: "09:30", spy: 512, dia: 30.1, qqq: 455 },
-    { time: "10:00", spy: 511, dia: 30.05, qqq: 454 },
-    { time: "11:00", spy: 510.5, dia: 30.02, qqq: 453.5 },
-    { time: "12:00", spy: 510, dia: 30.0, qqq: 453 },
-    { time: "13:00", spy: 509.5, dia: 29.98, qqq: 452.5 },
-    { time: "14:00", spy: 510.2, dia: 30.01, qqq: 453.2 },
-    { time: "15:00", spy: 509.8, dia: 29.99, qqq: 452.8 },
-    { time: "16:00", spy: 509.90, dia: 30.000, qqq: 452.90 }
-  ];
-
-  const globalMarkets = [
-    { region: "NIKKEI", value: "-0.90%", status: "red" },
-    { region: "Dow", value: "+0.56%", status: "green" },
-    { region: "S&P 500", value: "-0.40%", status: "red" },
-    { region: "FTSE", value: "-0.32%", status: "red" },
-    { region: "DAX", value: "+0.24%", status: "green" },
-    { region: "CAC", value: "-0.18%", status: "red" }
-  ];
-
-  const heatMapData = [
-    // Technology sector
-    { symbol: "AAPL", sector: "Technology", change: 2.34, size: "large" },
-    { symbol: "MSFT", sector: "Technology", change: 1.89, size: "large" },
-    { symbol: "GOOGL", sector: "Technology", change: -0.45, size: "medium" },
-    { symbol: "META", sector: "Technology", change: 3.12, size: "medium" },
-    { symbol: "NVDA", sector: "Technology", change: 4.67, size: "small" },
-    { symbol: "TSLA", sector: "Technology", change: -2.31, size: "medium" },
-    // Financial sector
-    { symbol: "JPM", sector: "Financial", change: 1.23, size: "large" },
-    { symbol: "BAC", sector: "Financial", change: 0.89, size: "medium" },
-    { symbol: "WFC", sector: "Financial", change: -0.67, size: "medium" },
-    { symbol: "GS", sector: "Financial", change: 2.15, size: "small" },
-    // Healthcare
-    { symbol: "JNJ", sector: "Healthcare", change: 0.45, size: "large" },
-    { symbol: "PFE", sector: "Healthcare", change: -1.23, size: "medium" },
-    { symbol: "UNH", sector: "Healthcare", change: 1.67, size: "medium" },
-    // Consumer
-    { symbol: "AMZN", sector: "Consumer", change: 2.89, size: "large" },
-    { symbol: "WMT", sector: "Consumer", change: 0.34, size: "medium" },
-    { symbol: "HD", sector: "Consumer", change: -0.78, size: "medium" }
-  ];
-
-  const topNews = [
-    { title: "Retail Sales Slump Takes Toll on Markets", time: "10 min ago" },
-    { title: "Tech Giant's Earnings Soar, Stock Hits Record High", time: "2 min ago" },
-    { title: "High-Profile IPO Falls Short of Expectations", time: "12 hrs ago" },
-    { title: "Electric Vehicle Stocks Skyrocket as New Policy Announced", time: "22 hrs ago" },
-    { title: "Market Sentiment Turns Bearish, Stocks Decline", time: "2 hrs ago" },
-    { title: "Chip Shortage Woes Continue, Tech Stocks Mixed", time: "3 days ago" }
+    { time: "09:30", spx: 5420, dji: 42100, ixic: 16820 },
+    { time: "10:00", spx: 5425, dji: 42120, ixic: 16810 },
+    { time: "11:00", spx: 5428, dji: 42140, ixic: 16800 },
+    { time: "12:00", spx: 5430, dji: 42160, ixic: 16795 },
+    { time: "13:00", spx: 5429, dji: 42170, ixic: 16798 },
+    { time: "14:00", spx: 5431, dji: 42175, ixic: 16794 }
   ];
 
   const topGainers = [
-    { symbol: "AAPL", name: "Apple", price: 125, change: 6.36 },
-    { symbol: "JPM", name: "JPM Chase", price: 121, change: 21.75 },
-    { symbol: "UBER", name: "Uber", price: 80, change: 3.84 },
-    { symbol: "NVDA", name: "Nvidia", price: 435, change: 5.85 },
-    { symbol: "GOOGL", name: "Alphabet", price: 234, change: 6.45 },
-    { symbol: "MSFT", name: "Microsoft", price: 438, change: 9.54 },
-    { symbol: "TGT", name: "Target", price: 89, change: 11.85 },
-    { symbol: "NFLX", name: "Netflix", price: 123, change: 4.90 }
+    { symbol: "NVDA", name: "NVIDIA Corp", price: "$142.38", change: "+5.82%", changeValue: "+7.83" },
+    { symbol: "TSLA", name: "Tesla Inc", price: "$248.98", change: "+4.73%", changeValue: "+11.26" },
+    { symbol: "META", name: "Meta Platforms", price: "$563.33", change: "+3.21%", changeValue: "+17.52" },
+    { symbol: "GOOGL", name: "Alphabet Inc", price: "$175.48", change: "+2.94%", changeValue: "+5.02" },
+    { symbol: "MSFT", name: "Microsoft Corp", price: "$416.42", change: "+1.87%", changeValue: "+7.65" }
+  ];
+
+  const topLosers = [
+    { symbol: "AMZN", name: "Amazon.com Inc", price: "$188.44", change: "-2.31%", changeValue: "-4.46" },
+    { symbol: "AAPL", name: "Apple Inc", price: "$224.37", change: "-1.89%", changeValue: "-4.32" },
+    { symbol: "NFLX", name: "Netflix Inc", price: "$701.35", change: "-1.76%", changeValue: "-12.55" },
+    { symbol: "AMD", name: "Advanced Micro", price: "$144.26", change: "-1.42%", changeValue: "-2.08" },
+    { symbol: "CRM", name: "Salesforce Inc", price: "$325.90", change: "-1.15%", changeValue: "-3.79" }
+  ];
+
+  const marketIndices = [
+    { name: "VIX", value: "15.24", change: "-0.89", isNegative: true },
+    { name: "DXY", value: "106.42", change: "+0.15", isNegative: false },
+    { name: "TNX", value: "4.285%", change: "+0.023", isNegative: false },
+    { name: "GC=F", value: "$2,653.20", change: "-8.40", isNegative: true }
+  ];
+
+  const newsItems = [
+    {
+      title: "Fed Officials Signal Possible Rate Cuts Ahead",
+      time: "2 hours ago",
+      source: "Reuters"
+    },
+    {
+      title: "Tech Stocks Rally on Strong Earnings Reports",
+      time: "4 hours ago", 
+      source: "Bloomberg"
+    },
+    {
+      title: "Oil Prices Rise Amid Middle East Tensions",
+      time: "6 hours ago",
+      source: "CNBC"
+    },
+    {
+      title: "Dollar Strengthens Against Major Currencies",
+      time: "8 hours ago",
+      source: "Financial Times"
+    }
   ];
 
   const chartConfig = {
-    spy: { label: "S&P 500", color: "#8b5cf6" },
-    dia: { label: "Dow Jones", color: "#06b6d4" },
-    qqq: { label: "NASDAQ", color: "#f59e0b" }
-  };
-
-  const getHeatMapColor = (change: number) => {
-    if (change > 2) return "bg-green-600";
-    if (change > 0) return "bg-green-400";
-    if (change > -2) return "bg-red-400";
-    return "bg-red-600";
-  };
-
-  const getHeatMapSize = (size: string) => {
-    switch (size) {
-      case "large": return "w-16 h-16";
-      case "medium": return "w-12 h-12";
-      case "small": return "w-8 h-8";
-      default: return "w-12 h-12";
-    }
+    spx: { label: "S&P 500", color: "#3b82f6" },
+    dji: { label: "Dow Jones", color: "#10b981" },
+    ixic: { label: "NASDAQ", color: "#f59e0b" }
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
-      {/* Top Navigation */}
-      <div className="flex items-center justify-between p-4 bg-gray-800 border-b border-gray-700">
-        <div className="flex items-center gap-6">
-          <div className="flex items-center gap-2">
-            <div className="w-6 h-6 bg-blue-500 rounded-full"></div>
-            <span className="font-semibold">Finance Dashboard</span>
-          </div>
-          {user && (
-            <div className="text-sm">
-              <div className="text-gray-400">Portfolio Balance</div>
-              <div className="font-bold">$623,098.17</div>
+    <div className="min-h-screen bg-background">
+      {/* Header */}
+      <div className="border-b bg-card">
+        <div className="flex items-center justify-between p-4">
+          <div className="flex items-center gap-6">
+            <h1 className="text-2xl font-bold">Finance Dashboard</h1>
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+              <Input 
+                placeholder="Search stocks, ETFs, indices..."
+                className="pl-10 w-80"
+              />
             </div>
-          )}
-          {user && (
-            <div className="text-sm">
-              <div className="text-gray-400">Available Funds</div>
-              <div className="font-bold">$122,912.50</div>
-            </div>
-          )}
-        </div>
-
-        <div className="flex items-center gap-4">
-          <div className="flex items-center gap-2">
-            <Search className="w-4 h-4 text-gray-400" />
-            <Input 
-              placeholder="Search stocks, ETFs..."
-              className="w-64 bg-gray-700 border-gray-600 text-white placeholder-gray-400"
-            />
           </div>
-          {user && <UserProfile />}
+          <div className="flex items-center gap-4">
+            {user && <UserProfile />}
+          </div>
         </div>
       </div>
 
-      <div className="grid grid-cols-12 gap-4 p-4">
-        {/* Indexes Section */}
-        <div className="col-span-7 bg-gray-800 rounded-lg p-4">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold">Indexes</h2>
-            <MoreHorizontal className="w-5 h-5 text-gray-400" />
-          </div>
-          
-          <div className="grid grid-cols-3 gap-4 mb-6">
-            {indexData.map((index) => (
-              <div key={index.symbol} className="text-center">
-                <div className="text-sm text-gray-400">{index.symbol}</div>
-                <div className="text-xl font-bold">{index.price}</div>
-                <div className={`text-sm ${index.changePercent < 0 ? 'text-red-400' : 'text-green-400'}`}>
-                  {index.change > 0 ? '+' : ''}{index.change} {index.changePercent > 0 ? '+' : ''}{index.changePercent}%
+      <div className="p-6 space-y-6">
+        {/* Market Overview */}
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
+          {indexData.map((index) => (
+            <div key={index.symbol} className="bg-card rounded-lg p-4 border">
+              <div className="flex items-center justify-between mb-2">
+                <div className="text-sm text-muted-foreground">{index.symbol}</div>
+                <div className={`flex items-center text-sm ${index.changePercent.includes('+') ? 'text-green-600' : 'text-red-600'}`}>
+                  {index.changePercent.includes('+') ? <TrendingUp className="w-4 h-4 mr-1" /> : <TrendingDown className="w-4 h-4 mr-1" />}
+                  {index.changePercent}
                 </div>
               </div>
-            ))}
+              <div className="text-lg font-semibold">{index.name}</div>
+              <div className="text-2xl font-bold">{index.price}</div>
+              <div className={`text-sm ${index.change.includes('+') ? 'text-green-600' : 'text-red-600'}`}>
+                {index.change}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+          {/* Chart Section */}
+          <div className="xl:col-span-2 bg-card rounded-lg border p-6">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-xl font-semibold">Market Overview</h2>
+              <div className="flex gap-2">
+                {["1D", "5D", "1M", "3M", "6M", "1Y", "5Y"].map((timeframe) => (
+                  <Button
+                    key={timeframe}
+                    variant={selectedTimeframe === timeframe ? "default" : "ghost"}
+                    size="sm"
+                    onClick={() => setSelectedTimeframe(timeframe)}
+                    className="text-xs"
+                  >
+                    {timeframe}
+                  </Button>
+                ))}
+              </div>
+            </div>
+
+            <div className="h-80 mb-4">
+              <ChartContainer config={chartConfig} className="h-full">
+                <LineChart data={chartData}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="time" />
+                  <YAxis />
+                  <ChartTooltip content={<ChartTooltipContent />} />
+                  <Line type="monotone" dataKey="spx" stroke="#3b82f6" strokeWidth={2} dot={false} />
+                  <Line type="monotone" dataKey="dji" stroke="#10b981" strokeWidth={2} dot={false} />
+                  <Line type="monotone" dataKey="ixic" stroke="#f59e0b" strokeWidth={2} dot={false} />
+                </LineChart>
+              </ChartContainer>
+            </div>
+
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+              {marketIndices.map((index) => (
+                <div key={index.name} className="text-center">
+                  <div className="text-sm text-muted-foreground">{index.name}</div>
+                  <div className="font-semibold">{index.value}</div>
+                  <div className={`text-sm ${index.isNegative ? 'text-red-600' : 'text-green-600'}`}>
+                    {index.change}
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
 
-          <div className="h-64 mb-4">
-            <ChartContainer config={chartConfig} className="h-full">
-              <LineChart data={chartData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
-                <XAxis dataKey="time" stroke="#9CA3AF" />
-                <YAxis stroke="#9CA3AF" />
-                <ChartTooltip content={<ChartTooltipContent />} />
-                <Line type="monotone" dataKey="spy" stroke="#8b5cf6" strokeWidth={2} dot={false} />
-                <Line type="monotone" dataKey="dia" stroke="#06b6d4" strokeWidth={2} dot={false} />
-                <Line type="monotone" dataKey="qqq" stroke="#f59e0b" strokeWidth={2} dot={false} />
-              </LineChart>
-            </ChartContainer>
-          </div>
-
-          <div className="flex gap-2">
-            {["1m", "5m", "15m", "30m", "1h", "D", "W", "M"].map((timeframe) => (
-              <Button
-                key={timeframe}
-                variant="ghost"
-                size="sm"
-                onClick={() => setSelectedTimeframe(timeframe)}
-                className={`text-xs ${selectedTimeframe === timeframe ? "text-cyan-400" : "text-gray-400"}`}
-              >
-                {timeframe}
-              </Button>
-            ))}
+          {/* News Section */}
+          <div className="bg-card rounded-lg border p-6">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-xl font-semibold">Market News</h2>
+              <MoreHorizontal className="w-5 h-5 text-muted-foreground" />
+            </div>
+            <div className="space-y-4">
+              {newsItems.map((news, index) => (
+                <div key={index} className="border-b border-border pb-3 last:border-b-0">
+                  <h3 className="font-medium text-sm mb-2 hover:text-primary cursor-pointer">
+                    {news.title}
+                  </h3>
+                  <div className="flex justify-between text-xs text-muted-foreground">
+                    <span>{news.source}</span>
+                    <span>{news.time}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
-        {/* Global Markets */}
-        <div className="col-span-5 bg-gray-800 rounded-lg p-4">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold">Global Markets</h2>
-            <MoreHorizontal className="w-5 h-5 text-gray-400" />
-          </div>
-          
-          <div className="h-64 bg-gray-700 rounded-lg p-4 relative overflow-hidden">
-            {/* World Map Visualization */}
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="text-gray-500 text-sm">World Map Visualization</div>
+        {/* Top Gainers and Losers */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <Tabs defaultValue="gainers" className="bg-card rounded-lg border">
+            <div className="p-6 pb-0">
+              <TabsList className="grid w-full grid-cols-2">
+                <TabsTrigger value="gainers">Top Gainers</TabsTrigger>
+                <TabsTrigger value="losers">Top Losers</TabsTrigger>
+              </TabsList>
             </div>
             
-            {/* Market indicators positioned around the map */}
-            <div className="relative h-full">
-              {globalMarkets.map((market, index) => (
-                <div
-                  key={market.region}
-                  className={`absolute rounded-full px-3 py-1 text-xs font-medium ${
-                    market.status === 'green' ? 'bg-green-600' : 'bg-red-600'
-                  }`}
-                  style={{
-                    top: `${20 + (index * 15)}%`,
-                    left: `${10 + (index * 12)}%`
-                  }}
-                >
-                  <div>{market.region}</div>
-                  <div>{market.value}</div>
+            <TabsContent value="gainers" className="p-6 pt-4">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Symbol</TableHead>
+                    <TableHead>Price</TableHead>
+                    <TableHead>Change</TableHead>
+                    <TableHead>% Change</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {topGainers.map((stock) => (
+                    <TableRow key={stock.symbol}>
+                      <TableCell>
+                        <div>
+                          <div className="font-medium">{stock.symbol}</div>
+                          <div className="text-xs text-muted-foreground">{stock.name}</div>
+                        </div>
+                      </TableCell>
+                      <TableCell>{stock.price}</TableCell>
+                      <TableCell className="text-green-600">{stock.changeValue}</TableCell>
+                      <TableCell className="text-green-600">{stock.change}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TabsContent>
+
+            <TabsContent value="losers" className="p-6 pt-4">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Symbol</TableHead>
+                    <TableHead>Price</TableHead>
+                    <TableHead>Change</TableHead>
+                    <TableHead>% Change</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {topLosers.map((stock) => (
+                    <TableRow key={stock.symbol}>
+                      <TableCell>
+                        <div>
+                          <div className="font-medium">{stock.symbol}</div>
+                          <div className="text-xs text-muted-foreground">{stock.name}</div>
+                        </div>
+                      </TableCell>
+                      <TableCell>{stock.price}</TableCell>
+                      <TableCell className="text-red-600">{stock.changeValue}</TableCell>
+                      <TableCell className="text-red-600">{stock.change}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TabsContent>
+          </Tabs>
+
+          {/* Additional Market Data */}
+          <div className="bg-card rounded-lg border p-6">
+            <h2 className="text-xl font-semibold mb-4">Market Sectors</h2>
+            <div className="space-y-3">
+              {[
+                { name: "Technology", change: "+1.23%", isPositive: true },
+                { name: "Healthcare", change: "+0.87%", isPositive: true },
+                { name: "Financial", change: "+0.45%", isPositive: true },
+                { name: "Energy", change: "-0.32%", isPositive: false },
+                { name: "Consumer Disc.", change: "-0.18%", isPositive: false },
+                { name: "Real Estate", change: "-0.76%", isPositive: false }
+              ].map((sector, index) => (
+                <div key={index} className="flex justify-between items-center">
+                  <span className="text-sm">{sector.name}</span>
+                  <span className={`text-sm ${sector.isPositive ? 'text-green-600' : 'text-red-600'}`}>
+                    {sector.change}
+                  </span>
                 </div>
               ))}
             </div>
           </div>
-        </div>
-
-        {/* Heat Map */}
-        <div className="col-span-4 bg-gray-800 rounded-lg p-4">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold">Heat Map</h2>
-            <div className="flex gap-2">
-              <select className="bg-gray-700 border-gray-600 rounded px-2 py-1 text-xs">
-                <option>Popular</option>
-                <option>Technology</option>
-                <option>Financial</option>
-              </select>
-              <MoreHorizontal className="w-5 h-5 text-gray-400" />
-            </div>
-          </div>
-
-          <div className="grid grid-cols-6 gap-1 h-64">
-            {heatMapData.map((item) => (
-              <div
-                key={item.symbol}
-                className={`${getHeatMapColor(item.change)} ${getHeatMapSize(item.size)} rounded flex flex-col items-center justify-center text-xs font-semibold`}
-              >
-                <div>{item.symbol}</div>
-                <div>{item.change > 0 ? '+' : ''}{item.change}%</div>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-4 text-xs text-gray-400">
-            <div className="flex items-center gap-4">
-              <span>Industries</span>
-              <span>Time frame</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Top News */}
-        <div className="col-span-4 bg-gray-800 rounded-lg p-4">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold">Top News</h2>
-            <MoreHorizontal className="w-5 h-5 text-gray-400" />
-          </div>
-
-          <div className="space-y-3">
-            {topNews.map((news, index) => (
-              <div key={index} className="border-b border-gray-700 pb-3 last:border-b-0">
-                <div className="text-sm font-medium mb-1 hover:text-cyan-400 cursor-pointer">
-                  {news.title}
-                </div>
-                <div className="text-xs text-gray-400">{news.time}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Top Gainers */}
-        <div className="col-span-4 bg-gray-800 rounded-lg p-4">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold">Top Gainers</h2>
-            <MoreHorizontal className="w-5 h-5 text-gray-400" />
-          </div>
-
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="text-gray-400">Symbol</TableHead>
-                <TableHead className="text-gray-400">Name</TableHead>
-                <TableHead className="text-gray-400">Price</TableHead>
-                <TableHead className="text-gray-400">% Change</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {topGainers.map((stock) => (
-                <TableRow key={stock.symbol}>
-                  <TableCell className="font-medium">{stock.symbol}</TableCell>
-                  <TableCell className="text-gray-300">{stock.name}</TableCell>
-                  <TableCell className="text-green-400">{stock.price}</TableCell>
-                  <TableCell className="text-green-400">+{stock.change}%</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
         </div>
       </div>
     </div>
