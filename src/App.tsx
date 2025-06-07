@@ -10,6 +10,7 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import SignupTrading from "./pages/SignupTrading";
 import TradingDashboard from "./pages/TradingDashboard";
+import FinanceDashboard from "./pages/FinanceDashboard";
 import ForgotPassword from "./pages/ForgotPassword";
 import SharkInvestors from "./pages/SharkInvestors";
 import Dashboard from "./pages/Dashboard";
@@ -34,6 +35,7 @@ const App = () => (
             <Route path="/signup" element={<Signup />} />
             <Route path="/signup-trading" element={<SignupTrading />} />
             <Route path="/trading-dashboard" element={<TradingDashboard />} />
+            <Route path="/finance-dashboard" element={<FinanceDashboard />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/shark-investors" element={<SharkInvestors />} />
             <Route path="/dashboard" element={<Dashboard />} />
