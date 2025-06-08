@@ -70,32 +70,32 @@ const FinanceDashboard = () => {
 
   return (
     <div className="min-h-screen bg-gray-900 text-white flex">
-      {/* Left Sidebar - Updated to match the image */}
-      <div className="w-12 bg-black border-r border-gray-800 flex flex-col items-center py-6 space-y-6">
+      {/* Left Sidebar - Updated to match exact design */}
+      <div className="w-16 bg-black flex flex-col items-center py-4 space-y-1">
         {/* Logo/Brand - White circle with dark center */}
-        <div className="w-6 h-6 bg-white rounded-full flex items-center justify-center mb-4">
-          <div className="w-3 h-3 bg-black rounded-full"></div>
+        <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center mb-6">
+          <div className="w-4 h-4 bg-black rounded-full"></div>
         </div>
         
         {/* Navigation Icons */}
-        <div className="flex flex-col space-y-6">
-          <Button variant="ghost" size="sm" className="w-8 h-8 p-0 text-gray-500 hover:text-white hover:bg-gray-800">
-            <Home className="w-4 h-4" />
+        <div className="flex flex-col space-y-1">
+          <Button variant="ghost" size="sm" className="w-12 h-12 p-0 text-gray-500 hover:text-white hover:bg-gray-800 rounded-lg">
+            <Home className="w-5 h-5" />
           </Button>
-          <Button variant="ghost" size="sm" className="w-8 h-8 p-0 text-blue-400 bg-gray-800">
-            <Eye className="w-4 h-4" />
+          <Button variant="ghost" size="sm" className="w-12 h-12 p-0 text-blue-400 bg-gray-800 rounded-lg">
+            <Eye className="w-5 h-5" />
           </Button>
-          <Button variant="ghost" size="sm" className="w-8 h-8 p-0 text-gray-500 hover:text-white hover:bg-gray-800">
-            <Globe className="w-4 h-4" />
+          <Button variant="ghost" size="sm" className="w-12 h-12 p-0 text-gray-500 hover:text-white hover:bg-gray-800 rounded-lg">
+            <Globe className="w-5 h-5" />
           </Button>
-          <Button variant="ghost" size="sm" className="w-8 h-8 p-0 text-gray-500 hover:text-white hover:bg-gray-800">
-            <BarChart3 className="w-4 h-4" />
+          <Button variant="ghost" size="sm" className="w-12 h-12 p-0 text-gray-500 hover:text-white hover:bg-gray-800 rounded-lg">
+            <BarChart3 className="w-5 h-5" />
           </Button>
-          <Button variant="ghost" size="sm" className="w-8 h-8 p-0 text-gray-500 hover:text-white hover:bg-gray-800">
-            <FileText className="w-4 h-4" />
+          <Button variant="ghost" size="sm" className="w-12 h-12 p-0 text-gray-500 hover:text-white hover:bg-gray-800 rounded-lg">
+            <FileText className="w-5 h-5" />
           </Button>
-          <Button variant="ghost" size="sm" className="w-8 h-8 p-0 text-gray-500 hover:text-white hover:bg-gray-800">
-            <Users className="w-4 h-4" />
+          <Button variant="ghost" size="sm" className="w-12 h-12 p-0 text-gray-500 hover:text-white hover:bg-gray-800 rounded-lg">
+            <Users className="w-5 h-5" />
           </Button>
         </div>
 
@@ -103,15 +103,15 @@ const FinanceDashboard = () => {
         <div className="flex-1"></div>
         
         {/* Bottom Icons */}
-        <div className="flex flex-col space-y-6">
-          <Button variant="ghost" size="sm" className="w-8 h-8 p-0 text-gray-500 hover:text-white hover:bg-gray-800">
-            <Settings className="w-4 h-4" />
+        <div className="flex flex-col space-y-1">
+          <Button variant="ghost" size="sm" className="w-12 h-12 p-0 text-gray-500 hover:text-white hover:bg-gray-800 rounded-lg">
+            <Settings className="w-5 h-5" />
           </Button>
-          <Button variant="ghost" size="sm" className="w-8 h-8 p-0 text-gray-500 hover:text-white hover:bg-gray-800">
-            <Mail className="w-4 h-4" />
+          <Button variant="ghost" size="sm" className="w-12 h-12 p-0 text-gray-500 hover:text-white hover:bg-gray-800 rounded-lg">
+            <Mail className="w-5 h-5" />
           </Button>
-          <Button variant="ghost" size="sm" className="w-8 h-8 p-0 text-gray-500 hover:text-white hover:bg-gray-800">
-            <Menu className="w-4 h-4" />
+          <Button variant="ghost" size="sm" className="w-12 h-12 p-0 text-gray-500 hover:text-white hover:bg-gray-800 rounded-lg">
+            <Menu className="w-5 h-5" />
           </Button>
         </div>
       </div>
