@@ -1,422 +1,291 @@
 
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, AreaChart, Area } from "recharts";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
-import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from "recharts";
-import { Search, Bell, Settings, Globe, BarChart3, BookOpen, TrendingUp, User } from "lucide-react";
+import { Search, Menu, Settings, MoreHorizontal, Bell, Home, TrendingUp, PieChart, FileText, Users, Zap, Mail, Eye, Globe, BarChart3 } from "lucide-react";
 import { useUser } from "@/contexts/UserContext";
-import { UserProfile } from "@/components/UserProfile";
 
 const TradingDashboard = () => {
   const { user } = useUser();
-  const [stopPrice, setStopPrice] = useState("400.00");
-  const [quantity, setQuantity] = useState("100");
-  
-  // Mock stock data for MSFT
-  const stockData = [
-    { time: "Jan", price: 380, volume: 2400000, rsi: 65 },
-    { time: "Feb", price: 390, volume: 1800000, rsi: 68 },
-    { time: "Mar", price: 385, volume: 2100000, rsi: 62 },
-    { time: "May", price: 395, volume: 2800000, rsi: 72 },
-    { time: "Jun", price: 400, volume: 2200000, rsi: 70 },
-    { time: "Jul", price: 405, volume: 1900000, rsi: 75 },
-    { time: "Sep", price: 408, volume: 2600000, rsi: 68 },
-    { time: "Oct", price: 406, volume: 2300000, rsi: 71 },
-    { time: "Nov", price: 406.32, volume: 2500000, rsi: 69 },
+
+  // Mock data for portfolio performance
+  const portfolioData = [
+    { time: "Jan", value: 100000 },
+    { time: "Feb", value: 120000 },
+    { time: "Mar", value: 115000 },
+    { time: "Apr", value: 135000 },
+    { time: "May", value: 140000 },
+    { time: "Jun", value: 155000 },
+    { time: "Jul", value: 165000 },
+    { time: "Aug", value: 160000 },
+    { time: "Sep", value: 175000 },
+    { time: "Oct", value: 180000 },
+    { time: "Nov", value: 195000 },
+    { time: "Dec", value: 200000 }
   ];
 
-  const timeAndSales = [
-    { time: "16:59:32", price: 420.56, size: 25 },
-    { time: "16:59:32", price: 420.56, size: 25 },
-    { time: "16:59:32", price: 420.56, size: 25 },
-    { time: "16:59:32", price: 420.56, size: 25 },
-    { time: "16:59:32", price: 420.56, size: 25 },
+  const positions = [
+    { symbol: "AAPL", shares: 100, avgPrice: 150.25, currentPrice: 175.30, pnl: "+16.68%" },
+    { symbol: "GOOGL", shares: 50, avgPrice: 2800.00, currentPrice: 2950.75, pnl: "+5.38%" },
+    { symbol: "MSFT", shares: 75, avgPrice: 300.50, currentPrice: 315.80, pnl: "+5.09%" },
+    { symbol: "TSLA", shares: 25, avgPrice: 700.00, currentPrice: 850.25, pnl: "+21.46%" },
+    { symbol: "AMZN", shares: 30, avgPrice: 3200.00, currentPrice: 3350.90, pnl: "+4.72%" }
+  ];
+
+  const watchlist = [
+    { symbol: "NVDA", price: 435.67, change: "+2.45%", volume: "45.2M" },
+    { symbol: "META", price: 298.55, change: "-1.23%", volume: "28.7M" },
+    { symbol: "NFLX", price: 425.30, change: "+0.85%", volume: "12.5M" },
+    { symbol: "AMD", price: 112.75, change: "+3.21%", volume: "35.8M" },
+    { symbol: "CRM", price: 215.90, change: "-0.67%", volume: "8.9M" }
   ];
 
   const chartConfig = {
-    price: {
-      label: "Price",
-      color: "#00ff88",
-    },
-    volume: {
-      label: "Volume",
-      color: "#0088ff",
-    },
-    rsi: {
-      label: "RSI",
-      color: "#ff8800",
-    },
-  };
-
-  // Generate account number based on user email for demo
-  const generateAccountNumber = (email: string) => {
-    if (!email) return "44337289992";
-    const hash = email.split('').reduce((a, b) => {
-      a = ((a << 5) - a) + b.charCodeAt(0);
-      return a & a;
-    }, 0);
-    return Math.abs(hash).toString().padStart(11, '0');
-  };
-
-  const getInitials = (name: string) => {
-    if (!name) return "P";
-    return name
-      .split(" ")
-      .map(word => word.charAt(0))
-      .join("")
-      .toUpperCase()
-      .slice(0, 2);
+    value: { label: "Portfolio Value", color: "#8b5cf6" }
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
-      {/* Top Navigation Bar */}
-      <div className="flex items-center justify-between p-4 bg-gray-800 border-b border-gray-700">
-        <div className="flex items-center gap-4">
-          <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
-            <span className="text-sm font-bold">{getInitials(user?.name || "Guest")}</span>
-          </div>
-          <div className="text-sm">
-            <div className="font-medium">{user?.name || "Guest User"}</div>
-            <div className="text-gray-400">Account: {generateAccountNumber(user?.email || "")}</div>
-            <div className="text-xs text-gray-500">{user?.email || "guest@example.com"}</div>
-          </div>
-          {!user && (
-            <Link to="/signup-trading">
-              <Button variant="outline" size="sm" className="ml-4 border-cyan-500 text-cyan-400 hover:bg-cyan-500 hover:text-black">
-                <User className="w-4 h-4 mr-2" />
-                Sign Up for Trading
-              </Button>
-            </Link>
-          )}
+    <div className="min-h-screen bg-gray-900 text-white flex">
+      {/* Left Sidebar - Matching Finance Dashboard */}
+      <div className="w-12 bg-black border-r border-gray-800 flex flex-col items-center py-6 space-y-6">
+        {/* Logo/Brand - White circle with dark center */}
+        <div className="w-6 h-6 bg-white rounded-full flex items-center justify-center mb-4">
+          <div className="w-3 h-3 bg-black rounded-full"></div>
+        </div>
+        
+        {/* Navigation Icons */}
+        <div className="flex flex-col space-y-6">
+          <Button variant="ghost" size="sm" className="w-8 h-8 p-0 text-gray-500 hover:text-white hover:bg-gray-800">
+            <Home className="w-4 h-4" />
+          </Button>
+          <Button variant="ghost" size="sm" className="w-8 h-8 p-0 text-blue-400 bg-gray-800">
+            <BarChart3 className="w-4 h-4" />
+          </Button>
+          <Button variant="ghost" size="sm" className="w-8 h-8 p-0 text-gray-500 hover:text-white hover:bg-gray-800">
+            <Globe className="w-4 h-4" />
+          </Button>
+          <Button variant="ghost" size="sm" className="w-8 h-8 p-0 text-gray-500 hover:text-white hover:bg-gray-800">
+            <Eye className="w-4 h-4" />
+          </Button>
+          <Button variant="ghost" size="sm" className="w-8 h-8 p-0 text-gray-500 hover:text-white hover:bg-gray-800">
+            <FileText className="w-4 h-4" />
+          </Button>
+          <Button variant="ghost" size="sm" className="w-8 h-8 p-0 text-gray-500 hover:text-white hover:bg-gray-800">
+            <Users className="w-4 h-4" />
+          </Button>
         </div>
 
-        <div className="flex items-center gap-6">
-          <div className="text-sm">
-            <div className="text-gray-400">Portfolio Balance</div>
-            <div className="font-bold">$623,098.17</div>
-          </div>
-          <div className="text-sm">
-            <div className="text-gray-400">Available Funds</div>
-            <div className="font-bold">$122,912.50</div>
-          </div>
-          <div className="flex items-center gap-2">
-            <Search className="w-4 h-4 text-gray-400" />
-            <Input 
-              placeholder="Search"
-              className="w-48 bg-gray-700 border-gray-600 text-white placeholder-gray-400"
-            />
-          </div>
-          <Bell className="w-5 h-5 text-gray-400" />
-          {user && <UserProfile />}
+        {/* Spacer */}
+        <div className="flex-1"></div>
+        
+        {/* Bottom Icons */}
+        <div className="flex flex-col space-y-6">
+          <Button variant="ghost" size="sm" className="w-8 h-8 p-0 text-gray-500 hover:text-white hover:bg-gray-800">
+            <Settings className="w-4 h-4" />
+          </Button>
+          <Button variant="ghost" size="sm" className="w-8 h-8 p-0 text-gray-500 hover:text-white hover:bg-gray-800">
+            <Mail className="w-4 h-4" />
+          </Button>
+          <Button variant="ghost" size="sm" className="w-8 h-8 p-0 text-gray-500 hover:text-white hover:bg-gray-800">
+            <Menu className="w-4 h-4" />
+          </Button>
         </div>
       </div>
 
-      {/* Main Navigation Tabs */}
-      <div className="flex items-center gap-6 px-4 py-2 bg-gray-800 border-b border-gray-700">
-        <Button variant="ghost" className="text-cyan-400 bg-gray-700">Chart</Button>
-        <Button variant="ghost" className="text-gray-300 hover:text-white">Options</Button>
-        <Button variant="ghost" className="text-gray-300 hover:text-white">News</Button>
-        <Button variant="ghost" className="text-gray-300 hover:text-white">Financials</Button>
-        <Button variant="ghost" className="text-gray-300 hover:text-white">Analysts</Button>
-        <Button variant="ghost" className="text-gray-300 hover:text-white">Risk Analysis</Button>
-        <Button variant="ghost" className="text-gray-300 hover:text-white">Releases</Button>
-        <Button variant="ghost" className="text-gray-300 hover:text-white">Notes</Button>
-        <Button variant="ghost" className="text-gray-300 hover:text-white">Profile</Button>
-        <Button className="bg-cyan-500 text-black hover:bg-cyan-400 ml-auto">Trade</Button>
-      </div>
-
-      <div className="flex">
-        {/* Left Sidebar */}
-        <div className="w-16 bg-gray-800 flex flex-col items-center py-4 gap-6">
-          <TrendingUp className="w-6 h-6 text-gray-400" />
-          <Globe className="w-6 h-6 text-gray-400" />
-          <BarChart3 className="w-6 h-6 text-gray-400" />
-          <BookOpen className="w-6 h-6 text-gray-400" />
-          <Settings className="w-6 h-6 text-gray-400" />
-        </div>
-
-        {/* Main Content */}
-        <div className="flex-1 flex">
-          {/* Chart Section */}
-          <div className="flex-1 p-4">
-            {/* Stock Header */}
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-4">
-                <h1 className="text-2xl font-bold">MSFT</h1>
-                <span className="text-gray-400">Microsoft Corp NASDAQ</span>
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 bg-green-400 rounded-full"></div>
-                  <div className="w-3 h-3 bg-red-400 rounded-full"></div>
-                </div>
-              </div>
-            </div>
-
-            {/* Stock Price Info */}
-            <div className="grid grid-cols-7 gap-4 mb-6 text-sm">
-              <div>
-                <div className="text-gray-400">Open</div>
-                <div>400.23</div>
-              </div>
-              <div>
-                <div className="text-gray-400">Low</div>
-                <div>400.10</div>
-              </div>
-              <div>
-                <div className="text-gray-400">High</div>
-                <div>408.36</div>
-              </div>
-              <div>
-                <div className="text-gray-400">52 wk high</div>
-                <div>430.60</div>
-              </div>
-              <div>
-                <div className="text-gray-400">52 wk low</div>
-                <div>273.13</div>
-              </div>
-              <div>
-                <div className="text-gray-400">Avg Vol (3M)</div>
-                <div>21.73M</div>
-              </div>
-              <div>
-                <div className="text-gray-400">Shares Outstanding</div>
-                <div>7.43B</div>
-              </div>
-            </div>
-
-            {/* Current Price */}
-            <div className="mb-6">
-              <div className="text-4xl font-bold text-green-400">406.32</div>
-              <div className="text-green-400">+0.26%</div>
-              <div className="text-gray-400 text-sm">After hours: 406.83 +0.27 +0.07% | 19:59 04/28 EDT</div>
-            </div>
-
-            {/* Chart Controls */}
-            <div className="flex items-center gap-2 mb-4">
-              <span className="text-sm">Open 406.36 High 408.36 Low 406.36 Close 406.36 +6.50 +2.14% Vol 56,254,761</span>
-            </div>
-
-            {/* Main Chart */}
-            <div className="h-96 mb-6">
-              <ChartContainer config={chartConfig} className="h-full">
-                <LineChart data={stockData}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
-                  <XAxis dataKey="time" stroke="#9CA3AF" />
-                  <YAxis stroke="#9CA3AF" />
-                  <ChartTooltip content={<ChartTooltipContent />} />
-                  <Line 
-                    type="monotone" 
-                    dataKey="price" 
-                    stroke="#00ff88" 
-                    strokeWidth={2}
-                    dot={false}
-                  />
-                </LineChart>
-              </ChartContainer>
-            </div>
-
-            {/* Volume Chart */}
-            <div className="h-32 mb-6">
-              <ChartContainer config={chartConfig} className="h-full">
-                <BarChart data={stockData}>
-                  <XAxis dataKey="time" stroke="#9CA3AF" />
-                  <YAxis stroke="#9CA3AF" />
-                  <Bar dataKey="volume" fill="#0088ff" />
-                </BarChart>
-              </ChartContainer>
-            </div>
-
-            {/* RSI Chart */}
-            <div className="h-32">
-              <ChartContainer config={chartConfig} className="h-full">
-                <LineChart data={stockData}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
-                  <XAxis dataKey="time" stroke="#9CA3AF" />
-                  <YAxis stroke="#9CA3AF" domain={[0, 100]} />
-                  <ChartTooltip content={<ChartTooltipContent />} />
-                  <Line 
-                    type="monotone" 
-                    dataKey="rsi" 
-                    stroke="#ff8800" 
-                    strokeWidth={2}
-                    dot={false}
-                  />
-                </LineChart>
-              </ChartContainer>
-            </div>
-
-            {/* Time Frame Controls */}
-            <div className="flex items-center gap-4 mt-4">
-              <span className="text-sm text-gray-400">Time frame:</span>
-              <div className="flex gap-2">
-                {["1m", "5m", "15m", "30m", "1h", "2h", "4h", "D", "W", "M", "All", "2m"].map((timeframe) => (
-                  <Button 
-                    key={timeframe}
-                    variant="ghost" 
-                    size="sm"
-                    className={`text-xs ${timeframe === "1h" ? "text-cyan-400" : "text-gray-400"}`}
-                  >
-                    {timeframe}
-                  </Button>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Right Trading Panel */}
-          <div className="w-80 bg-gray-800 p-4 border-l border-gray-700">
-            {/* User Status for Trading */}
-            {!user ? (
-              <div className="mb-6 p-4 bg-gray-700 rounded-lg border border-gray-600">
-                <h3 className="text-lg font-semibold text-cyan-400 mb-2">Start Trading</h3>
-                <p className="text-gray-300 text-sm mb-4">Sign up to access full trading features and track your portfolio.</p>
-                <Link to="/signup-trading">
-                  <Button className="w-full bg-cyan-500 hover:bg-cyan-600 text-black font-semibold">
-                    Create Trading Account
-                  </Button>
-                </Link>
-              </div>
-            ) : (
-              <div className="mb-6 p-4 bg-gray-700 rounded-lg border border-gray-600">
-                <h3 className="text-lg font-semibold text-green-400 mb-2">Welcome, {user.name}!</h3>
-                <p className="text-gray-300 text-xs">Account: {generateAccountNumber(user.email)}</p>
-                <p className="text-gray-400 text-xs">{user.email}</p>
-              </div>
-            )}
-
-            {/* Buy/Sell Buttons */}
-            <div className="flex gap-2 mb-6">
-              <Button 
-                className="flex-1 bg-green-500 hover:bg-green-600 text-white"
-                disabled={!user}
-              >
-                Buy
-              </Button>
-              <Button 
-                className="flex-1 bg-red-500 hover:bg-red-600 text-white"
-                disabled={!user}
-              >
-                Sell
-              </Button>
-            </div>
-
-            {/* Order Form */}
-            <div className="space-y-4 mb-6">
-              <div>
-                <Label className="text-gray-300">Order Type</Label>
-                <select 
-                  className="w-full mt-1 p-2 bg-gray-700 border border-gray-600 rounded text-white"
-                  disabled={!user}
-                >
-                  <option>Market Price</option>
-                  <option>Limit</option>
-                  <option>Stop</option>
-                </select>
-              </div>
-
-              <div>
-                <Label className="text-gray-300">Quantity (Shares)</Label>
-                <Input 
-                  value={quantity}
-                  onChange={(e) => setQuantity(e.target.value)}
-                  className="mt-1 bg-gray-700 border-gray-600 text-white"
-                  disabled={!user}
-                />
-                <div className="flex gap-2 mt-2">
-                  {["10", "50", "100", "500"].map((qty) => (
-                    <Button 
-                      key={qty}
-                      variant="outline" 
-                      size="sm"
-                      onClick={() => setQuantity(qty)}
-                      className="text-xs border-gray-600 text-gray-300"
-                      disabled={!user}
-                    >
-                      {qty}
-                    </Button>
-                  ))}
-                </div>
-              </div>
-
-              <div>
-                <Label className="text-gray-300">Time-in-Force</Label>
-                <select 
-                  className="w-full mt-1 p-2 bg-gray-700 border border-gray-600 rounded text-white"
-                  disabled={!user}
-                >
-                  <option>Day</option>
-                  <option>GTC</option>
-                  <option>IOC</option>
-                </select>
-              </div>
-
+      {/* Main Content */}
+      <div className="flex-1">
+        {/* Header */}
+        <div className="bg-gray-800 border-b border-gray-700">
+          <div className="flex items-center justify-between p-4">
+            <div className="flex items-center gap-4">
               <div className="flex items-center gap-2">
-                <Switch disabled={!user} />
-                <Label className="text-gray-300">Stop Price</Label>
-              </div>
-
-              <div>
-                <Input 
-                  value={stopPrice}
-                  onChange={(e) => setStopPrice(e.target.value)}
-                  className="bg-gray-700 border-gray-600 text-white"
-                  placeholder="400.00"
-                  disabled={!user}
-                />
-              </div>
-
-              <div className="text-sm text-gray-400">
-                <div>Est. Loss: <span className="text-red-400">12,097.36</span></div>
-              </div>
-
-              <div className="space-y-2 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-gray-400">Buying Power</span>
-                  <span>$122,912.50</span>
+                <div className="w-8 h-8 bg-gray-600 rounded-full"></div>
+                <div>
+                  <div className="text-sm font-medium">Trading Account</div>
+                  <div className="text-xs text-gray-400">Account: 4453728992</div>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-400">Transaction Fees</span>
-                  <span>$4.00</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-400">Estimated Total</span>
-                  <span>$40,000</span>
-                </div>
-              </div>
-
-              <Button 
-                className="w-full bg-cyan-500 hover:bg-cyan-600 text-black font-semibold"
-                disabled={!user}
-              >
-                {user ? "Buy MSFT" : "Sign Up to Trade"}
-              </Button>
-
-              <Button variant="ghost" className="w-full text-gray-300">
-                Disclaimer →
-              </Button>
-            </div>
-
-            {/* Time & Sales */}
-            <div>
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="font-semibold">Time & Sales</h3>
-                <Settings className="w-4 h-4 text-gray-400" />
               </div>
               
-              <div className="space-y-2">
-                {timeAndSales.map((trade, index) => (
-                  <div key={index} className="flex justify-between text-sm">
-                    <span className="text-gray-400">{trade.time}</span>
-                    <span>{trade.price}</span>
-                    <span className="text-gray-400">{trade.size}</span>
-                  </div>
-                ))}
+              <div className="flex items-center gap-8 ml-8">
+                <div className="text-sm">
+                  <div className="text-gray-400">Portfolio Value</div>
+                  <div className="text-xl font-bold">$823,098.17</div>
+                </div>
+                <div className="text-sm">
+                  <div className="text-gray-400">Buying Power</div>
+                  <div className="text-xl font-bold">$322,912.50</div>
+                </div>
+                <div className="text-sm">
+                  <div className="text-gray-400">Day's P&L</div>
+                  <div className="text-xl font-bold text-green-400">+$12,405.30</div>
+                </div>
               </div>
             </div>
+            
+            <div className="flex items-center gap-4">
+              <Bell className="w-5 h-5 text-gray-400" />
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                <Input 
+                  placeholder="Search stocks..."
+                  className="pl-10 w-64 bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="p-6 grid grid-cols-6 gap-6">
+          {/* Portfolio Performance Chart */}
+          <div className="col-span-4 bg-gray-800 rounded-lg p-6">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-lg font-semibold">Portfolio Performance</h2>
+              <MoreHorizontal className="w-5 h-5 text-gray-400" />
+            </div>
+            
+            <div className="grid grid-cols-4 gap-6 mb-6">
+              <div>
+                <div className="text-gray-400 text-sm">Total Value</div>
+                <div className="text-xl font-bold">$823,098.17</div>
+                <div className="text-green-400 text-sm">+15.2% YTD</div>
+              </div>
+              
+              <div>
+                <div className="text-gray-400 text-sm">Day's Change</div>
+                <div className="text-xl font-bold">+$12,405.30</div>
+                <div className="text-green-400 text-sm">+1.53%</div>
+              </div>
+              
+              <div>
+                <div className="text-gray-400 text-sm">Total Return</div>
+                <div className="text-xl font-bold">+$123,098.17</div>
+                <div className="text-green-400 text-sm">+17.58%</div>
+              </div>
+              
+              <div>
+                <div className="text-gray-400 text-sm">Cash</div>
+                <div className="text-xl font-bold">$322,912.50</div>
+                <div className="text-gray-400 text-sm">39.2% of portfolio</div>
+              </div>
+            </div>
+
+            <div className="h-64">
+              <ChartContainer config={chartConfig} className="h-full">
+                <AreaChart data={portfolioData}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
+                  <XAxis dataKey="time" stroke="#9ca3af" />
+                  <YAxis stroke="#9ca3af" />
+                  <ChartTooltip content={<ChartTooltipContent />} />
+                  <Area type="monotone" dataKey="value" stroke="#8b5cf6" fill="#8b5cf6" fillOpacity={0.2} strokeWidth={2} />
+                </AreaChart>
+              </ChartContainer>
+            </div>
+          </div>
+
+          {/* Quick Actions */}
+          <div className="col-span-2 bg-gray-800 rounded-lg p-6">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-lg font-semibold">Quick Actions</h2>
+              <MoreHorizontal className="w-5 h-5 text-gray-400" />
+            </div>
+            
+            <div className="space-y-4">
+              <Button className="w-full bg-green-600 hover:bg-green-700 text-white">
+                Place Buy Order
+              </Button>
+              <Button className="w-full bg-red-600 hover:bg-red-700 text-white">
+                Place Sell Order
+              </Button>
+              <Button variant="outline" className="w-full border-gray-600 text-white hover:bg-gray-700">
+                View All Orders
+              </Button>
+              <Button variant="outline" className="w-full border-gray-600 text-white hover:bg-gray-700">
+                Transfer Funds
+              </Button>
+            </div>
+
+            <div className="mt-6 pt-6 border-t border-gray-700">
+              <h3 className="text-sm font-semibold mb-3">Market Status</h3>
+              <div className="space-y-2">
+                <div className="flex justify-between text-sm">
+                  <span className="text-gray-400">NYSE</span>
+                  <span className="text-green-400">Open</span>
+                </div>
+                <div className="flex justify-between text-sm">
+                  <span className="text-gray-400">NASDAQ</span>
+                  <span className="text-green-400">Open</span>
+                </div>
+                <div className="flex justify-between text-sm">
+                  <span className="text-gray-400">Market Close</span>
+                  <span className="text-gray-400">4:00 PM EST</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Current Positions */}
+          <div className="col-span-3 bg-gray-800 rounded-lg p-6">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-lg font-semibold">Current Positions</h2>
+              <MoreHorizontal className="w-5 h-5 text-gray-400" />
+            </div>
+            
+            <Table>
+              <TableHeader>
+                <TableRow className="border-gray-700">
+                  <TableHead className="text-gray-400 text-xs">Symbol</TableHead>
+                  <TableHead className="text-gray-400 text-xs">Shares</TableHead>
+                  <TableHead className="text-gray-400 text-xs">Avg Price</TableHead>
+                  <TableHead className="text-gray-400 text-xs">Current</TableHead>
+                  <TableHead className="text-gray-400 text-xs">P&L</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {positions.map((position, index) => (
+                  <TableRow key={index} className="border-gray-700 hover:bg-gray-700">
+                    <TableCell className="text-white font-medium text-sm">{position.symbol}</TableCell>
+                    <TableCell className="text-gray-300 text-sm">{position.shares}</TableCell>
+                    <TableCell className="text-gray-300 text-sm">${position.avgPrice}</TableCell>
+                    <TableCell className="text-white text-sm">${position.currentPrice}</TableCell>
+                    <TableCell className="text-green-400 text-sm">{position.pnl}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+
+          {/* Watchlist */}
+          <div className="col-span-3 bg-gray-800 rounded-lg p-6">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-lg font-semibold">Watchlist</h2>
+              <MoreHorizontal className="w-5 h-5 text-gray-400" />
+            </div>
+            
+            <Table>
+              <TableHeader>
+                <TableRow className="border-gray-700">
+                  <TableHead className="text-gray-400 text-xs">Symbol</TableHead>
+                  <TableHead className="text-gray-400 text-xs">Price</TableHead>
+                  <TableHead className="text-gray-400 text-xs">Change</TableHead>
+                  <TableHead className="text-gray-400 text-xs">Volume</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {watchlist.map((stock, index) => (
+                  <TableRow key={index} className="border-gray-700 hover:bg-gray-700">
+                    <TableCell className="text-white font-medium text-sm">{stock.symbol}</TableCell>
+                    <TableCell className="text-white text-sm">${stock.price}</TableCell>
+                    <TableCell className={`text-sm ${stock.change.startsWith('+') ? 'text-green-400' : 'text-red-400'}`}>
+                      {stock.change}
+                    </TableCell>
+                    <TableCell className="text-gray-300 text-sm">{stock.volume}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
           </div>
         </div>
       </div>
