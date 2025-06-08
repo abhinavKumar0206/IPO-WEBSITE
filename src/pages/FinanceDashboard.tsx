@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search, Menu, Settings, MoreHorizontal, Bell, Home, TrendingUp, PieChart, FileText, Users, Zap, Mail, Eye, Globe, BarChart3 } from "lucide-react";
 import { useUser } from "@/contexts/UserContext";
+import { Link } from "react-router-dom";
 
 const FinanceDashboard = () => {
   const { user } = useUser();
@@ -79,18 +80,24 @@ const FinanceDashboard = () => {
         
         {/* Navigation Icons */}
         <div className="flex flex-col space-y-1">
-          <Button variant="ghost" size="sm" className="w-12 h-12 p-0 text-gray-500 hover:text-white hover:bg-gray-800 rounded-lg">
-            <Home className="w-5 h-5" />
-          </Button>
+          <Link to="/">
+            <Button variant="ghost" size="sm" className="w-12 h-12 p-0 text-gray-500 hover:text-white hover:bg-gray-800 rounded-lg">
+              <Home className="w-5 h-5" />
+            </Button>
+          </Link>
           <Button variant="ghost" size="sm" className="w-12 h-12 p-0 text-blue-400 bg-gray-800 rounded-lg">
             <Eye className="w-5 h-5" />
           </Button>
-          <Button variant="ghost" size="sm" className="w-12 h-12 p-0 text-gray-500 hover:text-white hover:bg-gray-800 rounded-lg">
-            <Globe className="w-5 h-5" />
-          </Button>
-          <Button variant="ghost" size="sm" className="w-12 h-12 p-0 text-gray-500 hover:text-white hover:bg-gray-800 rounded-lg">
-            <BarChart3 className="w-5 h-5" />
-          </Button>
+          <Link to="/finance-dashboard">
+            <Button variant="ghost" size="sm" className="w-12 h-12 p-0 text-gray-500 hover:text-white hover:bg-gray-800 rounded-lg">
+              <Globe className="w-5 h-5" />
+            </Button>
+          </Link>
+          <Link to="/trading-dashboard">
+            <Button variant="ghost" size="sm" className="w-12 h-12 p-0 text-gray-500 hover:text-white hover:bg-gray-800 rounded-lg">
+              <BarChart3 className="w-5 h-5" />
+            </Button>
+          </Link>
           <Button variant="ghost" size="sm" className="w-12 h-12 p-0 text-gray-500 hover:text-white hover:bg-gray-800 rounded-lg">
             <FileText className="w-5 h-5" />
           </Button>
