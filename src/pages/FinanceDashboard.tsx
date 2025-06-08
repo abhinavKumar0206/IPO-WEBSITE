@@ -5,9 +5,8 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid } from "recharts";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Search, Menu, Settings, MoreHorizontal, Bell, Home, TrendingUp, PieChart, FileText, Users, Zap, Mail } from "lucide-react";
+import { Search, Menu, Settings, MoreHorizontal, Bell, Home, TrendingUp, PieChart, FileText, Users, Zap, Mail, Eye, Globe, BarChart3 } from "lucide-react";
 import { useUser } from "@/contexts/UserContext";
-import { UserProfile } from "@/components/UserProfile";
 
 const FinanceDashboard = () => {
   const { user } = useUser();
@@ -58,13 +57,6 @@ const FinanceDashboard = () => {
     nasdaq: { label: "NASDAQ", color: "#f59e0b" }
   };
 
-  // Heat map sectors with proper color coding
-  const heatMapSectors = {
-    "Information technology": { color: "bg-emerald-500", size: "col-span-4 row-span-6", companies: ["NVDA", "AAPL", "ADBE", "INTC", "CSCO", "CRM"] },
-    "Financials": { color: "bg-red-500", size: "col-span-2 row-span-3", companies: ["JPM", "BAC", "WFC", "GS"] },
-    "Consumer staples": { color: "bg-emerald-400", size: "col-span-2 row-span-3", companies: ["PG", "KO", "WMT", "COST"] }
-  };
-
   const worldMarkets = [
     { name: "S&P500", value: "-0.5%", color: "bg-emerald-500", position: "top-16 left-20" },
     { name: "FTSE", value: "-0.5%", color: "bg-emerald-500", position: "top-12 left-1/2" },
@@ -78,41 +70,50 @@ const FinanceDashboard = () => {
 
   return (
     <div className="min-h-screen bg-gray-900 text-white flex">
-      {/* Left Sidebar */}
-      <div className="w-16 bg-gray-800 border-r border-gray-700 flex flex-col items-center py-4 space-y-6">
-        <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
-          <div className="w-4 h-4 bg-gray-900 rounded-full"></div>
+      {/* Left Sidebar - Updated to match the image */}
+      <div className="w-12 bg-black border-r border-gray-800 flex flex-col items-center py-6 space-y-6">
+        {/* Logo/Brand - White circle with dark center */}
+        <div className="w-6 h-6 bg-white rounded-full flex items-center justify-center mb-4">
+          <div className="w-3 h-3 bg-black rounded-full"></div>
         </div>
         
-        <div className="flex flex-col space-y-4">
-          <Button variant="ghost" size="sm" className="w-10 h-10 p-0 text-gray-400 hover:text-white">
-            <Home className="w-5 h-5" />
+        {/* Navigation Icons */}
+        <div className="flex flex-col space-y-6">
+          <Button variant="ghost" size="sm" className="w-8 h-8 p-0 text-gray-500 hover:text-white hover:bg-gray-800">
+            <Home className="w-4 h-4" />
           </Button>
-          <Button variant="ghost" size="sm" className="w-10 h-10 p-0 text-blue-400">
-            <TrendingUp className="w-5 h-5" />
+          <Button variant="ghost" size="sm" className="w-8 h-8 p-0 text-blue-400 bg-gray-800">
+            <Eye className="w-4 h-4" />
           </Button>
-          <Button variant="ghost" size="sm" className="w-10 h-10 p-0 text-gray-400 hover:text-white">
-            <PieChart className="w-5 h-5" />
+          <Button variant="ghost" size="sm" className="w-8 h-8 p-0 text-gray-500 hover:text-white hover:bg-gray-800">
+            <Globe className="w-4 h-4" />
           </Button>
-          <Button variant="ghost" size="sm" className="w-10 h-10 p-0 text-gray-400 hover:text-white">
-            <FileText className="w-5 h-5" />
+          <Button variant="ghost" size="sm" className="w-8 h-8 p-0 text-gray-500 hover:text-white hover:bg-gray-800">
+            <BarChart3 className="w-4 h-4" />
           </Button>
-          <Button variant="ghost" size="sm" className="w-10 h-10 p-0 text-gray-400 hover:text-white">
-            <Users className="w-5 h-5" />
+          <Button variant="ghost" size="sm" className="w-8 h-8 p-0 text-gray-500 hover:text-white hover:bg-gray-800">
+            <FileText className="w-4 h-4" />
           </Button>
-          <Button variant="ghost" size="sm" className="w-10 h-10 p-0 text-gray-400 hover:text-white">
-            <Zap className="w-5 h-5" />
-          </Button>
-          <Button variant="ghost" size="sm" className="w-10 h-10 p-0 text-gray-400 hover:text-white">
-            <Mail className="w-5 h-5" />
+          <Button variant="ghost" size="sm" className="w-8 h-8 p-0 text-gray-500 hover:text-white hover:bg-gray-800">
+            <Users className="w-4 h-4" />
           </Button>
         </div>
 
+        {/* Spacer */}
         <div className="flex-1"></div>
         
-        <Button variant="ghost" size="sm" className="w-10 h-10 p-0 text-gray-400 hover:text-white">
-          <Settings className="w-5 h-5" />
-        </Button>
+        {/* Bottom Icons */}
+        <div className="flex flex-col space-y-6">
+          <Button variant="ghost" size="sm" className="w-8 h-8 p-0 text-gray-500 hover:text-white hover:bg-gray-800">
+            <Settings className="w-4 h-4" />
+          </Button>
+          <Button variant="ghost" size="sm" className="w-8 h-8 p-0 text-gray-500 hover:text-white hover:bg-gray-800">
+            <Mail className="w-4 h-4" />
+          </Button>
+          <Button variant="ghost" size="sm" className="w-8 h-8 p-0 text-gray-500 hover:text-white hover:bg-gray-800">
+            <Menu className="w-4 h-4" />
+          </Button>
+        </div>
       </div>
 
       {/* Main Content */}
