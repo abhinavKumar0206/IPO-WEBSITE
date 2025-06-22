@@ -85,6 +85,10 @@ Start the frontend:
 cd ../
 npm run dev
 
+### 6. Demo Data
+
+1:for admin signin username: admin@bluestock.com , password: Web-Admin
+2:for user signin username: ab1419141@gmail.com , password: hello
 
 📁 Project Structure
 
