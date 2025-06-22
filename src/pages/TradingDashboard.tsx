@@ -1,13 +1,12 @@
 
-import { useState } from "react";
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, AreaChart, Area } from "recharts";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { Input } from "@/components/ui/input";
-import { Search, Menu, Settings, MoreHorizontal, Bell, Home, TrendingUp, PieChart, FileText, Users, Zap, Mail, Eye, Globe, BarChart3 } from "lucide-react";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useUser } from "@/contexts/UserContext";
+import { BarChart3, Bell, Eye, FileText, Globe, Home, Mail, Menu, MoreHorizontal, Search, Settings, Users } from "lucide-react";
 import { Link } from "react-router-dom";
+import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
 
 const TradingDashboard = () => {
   const { user } = useUser();

@@ -1,24 +1,23 @@
+import { Header } from "@/components/Header";
 
-import { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { 
-  BarChart, 
-  Bar, 
-  XAxis, 
-  YAxis, 
-  CartesianGrid, 
-  Tooltip, 
-  ResponsiveContainer,
-  LineChart,
+// import { Header } from "@radix-ui/react-accordion";
+import { AlertCircle, Building, DollarSign, Star, ThumbsDown, ThumbsUp, TrendingUp, Users } from "lucide-react";
+import { useState } from "react";
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
   Line,
-  PieChart,
-  Pie,
-  Cell
+  LineChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis
 } from "recharts";
-import { Star, TrendingUp, Users, AlertCircle, Building, DollarSign, FileText, ThumbsUp, ThumbsDown } from "lucide-react";
 
 const activeClientsData = [
   { year: "2016-17", angelOne: 27, zerodha: 0 },
@@ -66,6 +65,7 @@ const BrokerComparison = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
+    <Header/>  
       {/* Header */}
       <div className="bg-white border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

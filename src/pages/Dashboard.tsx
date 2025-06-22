@@ -1,18 +1,19 @@
 
-import { SidebarProvider, Sidebar, SidebarContent, SidebarHeader, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
 import { IPOAnalytics } from "@/components/IPOAnalytics";
-import { QuickLinks } from "@/components/QuickLinks";
 import { MainBoardIPO } from "@/components/MainBoardIPO";
+import { QuickLinks } from "@/components/QuickLinks";
 import { UserProfile } from "@/components/UserProfile";
 import { Input } from "@/components/ui/input";
-import { LayoutDashboard, FileText, Users, Settings, Key, HelpCircle, Search } from "lucide-react";
+import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarHeader, SidebarInset, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { FileText, HelpCircle, Key, LayoutDashboard, Search, Settings, Users } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const menuItems = [
   { title: "Dashboard", icon: LayoutDashboard, url: "/dashboard", active: true },
-  { title: "Manage IPO", icon: FileText, url: "/manage-ipo" },
+  { title: "Manage IPO", icon: FileText, url: "/ipos" },
   { title: "IPO Subscription", icon: FileText, url: "#" },
   { title: "IPO Allotment", icon: FileText, url: "#" },
+  { title: "IPO Home", icon: FileText, url: "/" },
   { title: "Settings", icon: Settings, url: "#" },
   { title: "API Manager", icon: Key, url: "#" },
   { title: "Accounts", icon: Users, url: "#" },
@@ -26,10 +27,8 @@ const Dashboard = () => {
         <Sidebar className="border-r bg-white">
           <SidebarHeader className="p-4 border-b">
             <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-sm">BS</span>
-              </div>
-              <span className="text-lg font-bold text-gray-900">Bluestock Fintech</span>
+              <img src="/dp.jpg" alt="Logo" className="w-8 h-8 rounded" />
+              <span className="text-xl font-bold text-gray-900">BLUESTOCK</span>
             </div>
           </SidebarHeader>
           

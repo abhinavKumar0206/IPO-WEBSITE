@@ -1,9 +1,9 @@
-
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 
 interface User {
   name: string;
   email: string;
+  role: 'admin' | 'user';
 }
 
 interface UserContextType {
@@ -18,10 +18,20 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [user, setUserState] = useState<User | null>(null);
 
   useEffect(() => {
-    // Load user from localStorage on mount
-    const savedUser = localStorage.getItem('bluestock_user');
-    if (savedUser) {
-      setUserState(JSON.parse(savedUser));
+    try {
+      const savedUser = localStorage.getItem('bluestock_user');
+      if (savedUser) {
+        const parsedUser = JSON.parse(savedUser);
+        // Check if parsed object is valid
+        if (parsedUser.name && parsedUser.email && parsedUser.role) {
+          setUserState(parsedUser);
+        } else {
+          localStorage.removeItem('bluestock_user');
+        }
+      }
+    } catch (error) {
+      console.error("Failed to parse user from localStorage:", error);
+      localStorage.removeItem('bluestock_user');
     }
   }, []);
 

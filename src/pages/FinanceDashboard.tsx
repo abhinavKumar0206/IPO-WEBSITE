@@ -1,13 +1,13 @@
 
-import { useState } from "react";
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid } from "recharts";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { Input } from "@/components/ui/input";
-import { Search, Menu, Settings, MoreHorizontal, Bell, Home, TrendingUp, PieChart, FileText, Users, Zap, Mail, Eye, Globe, BarChart3 } from "lucide-react";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useUser } from "@/contexts/UserContext";
+import { BarChart3, Bell, Eye, FileText, Globe, Home, Mail, Menu, MoreHorizontal, Search, Settings, Users } from "lucide-react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts";
 
 const FinanceDashboard = () => {
   const { user } = useUser();
@@ -85,15 +85,17 @@ const FinanceDashboard = () => {
               <Home className="w-5 h-5" />
             </Button>
           </Link>
-          <Button variant="ghost" size="sm" className="w-12 h-12 p-0 text-blue-400 bg-gray-800 rounded-lg">
-            <Eye className="w-5 h-5" />
-          </Button>
           <Link to="/finance-dashboard">
+            <Button variant="ghost" size="sm" className="w-12 h-12 p-0 text-blue-400 bg-gray-800 rounded-lg">
+              <Eye className="w-5 h-5" />
+            </Button>
+          </Link>
+          <Link to="/Trading">
             <Button variant="ghost" size="sm" className="w-12 h-12 p-0 text-gray-500 hover:text-white hover:bg-gray-800 rounded-lg">
               <Globe className="w-5 h-5" />
             </Button>
           </Link>
-          <Link to="/trading-dashboard">
+          <Link to="/TradingDashboard">
             <Button variant="ghost" size="sm" className="w-12 h-12 p-0 text-gray-500 hover:text-white hover:bg-gray-800 rounded-lg">
               <BarChart3 className="w-5 h-5" />
             </Button>
@@ -111,9 +113,11 @@ const FinanceDashboard = () => {
         
         {/* Bottom Icons */}
         <div className="flex flex-col space-y-1">
-          <Button variant="ghost" size="sm" className="w-12 h-12 p-0 text-gray-500 hover:text-white hover:bg-gray-800 rounded-lg">
-            <Settings className="w-5 h-5" />
-          </Button>
+          <Link to="/settings">
+            <Button variant="ghost" size="sm" className="w-12 h-12 p-0 text-gray-500 hover:text-white hover:bg-gray-800 rounded-lg">
+              <Settings className="w-5 h-5" />
+            </Button>
+          </Link>
           <Button variant="ghost" size="sm" className="w-12 h-12 p-0 text-gray-500 hover:text-white hover:bg-gray-800 rounded-lg">
             <Mail className="w-5 h-5" />
           </Button>
@@ -132,7 +136,7 @@ const FinanceDashboard = () => {
               <div className="flex items-center gap-2">
                 <div className="w-8 h-8 bg-gray-600 rounded-full"></div>
                 <div>
-                  <div className="text-sm font-medium">Pratik Patil</div>
+                  <div className="text-sm font-medium">{user?.name || "User"}</div>
                   <div className="text-xs text-gray-400">Account: 4453728992</div>
                 </div>
               </div>

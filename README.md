@@ -1,73 +1,121 @@
-# Welcome to your Lovable project
+# Bluestock - IPO Management and Analysis Web App
 
-## Project info
+Bluestock is a full-stack web application designed for managing, viewing, and analyzing Initial Public Offerings (IPOs). It features separate interfaces for users and admins, role-based access, dynamic IPO listing, registration, authentication, and educational resources on technical analysis and financial markets.
 
-**URL**: https://lovable.dev/projects/ee6688c2-6a8d-4dfb-be7e-53de42b52d4f
+---
 
-## How can I edit this code?
+## 🚀 Features
 
-There are several ways of editing your application.
+- 🔐 User and Admin authentication (local)
+- 📊 Manage IPOs (admin role)
+- 🗓 View upcoming IPOs and detailed listings
+- 📚 Educational modules on stock market concepts
+- 📈 Integrated trading dashboard (charts, metrics)
+- 🧠 React + Tailwind CSS frontend
+- ⚙️ Express.js + PostgreSQL backend
+- 🔄 Real-time database updates via RESTful APIs
 
-**Use Lovable**
+---
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/ee6688c2-6a8d-4dfb-be7e-53de42b52d4f) and start prompting.
+## 🏗️ Tech Stack
 
-Changes made via Lovable will be committed automatically to this repo.
+| Frontend        | Backend         | Database     | Other             |
+|----------------|------------------|--------------|-------------------|
+| React.js (Vite) | Express.js (Node) | PostgreSQL   | Tailwind CSS, JWT |
 
-**Use your preferred IDE**
+---
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## 🔧 Local Setup Instructions
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+### 1. Clone the Repository
 
-Follow these steps:
+```bash
+git clone https://github.com/yourusername/bluestock-ipo-webapp.git
+cd bluestock-ipo-webapp
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+### 2. Install Dependencies
+Run this from the root folder (will install both client and server dependencies):
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+```bash
+npm install
 
-# Step 3: Install the necessary dependencies.
-npm i
+If your server and client are split, you may also need:
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+```bash
+cd server
+npm install
+
+cd ../
+cd src
+npm install
+
+### 3. Setup PostgreSQL
+
+1: Ensure PostgreSQL is installed and running locally.
+
+2: Create a new database (e.g. bluestock_db)
+
+3: Then run the following to populate schema and initial data:
+
+```bash
+psql -U your_pg_user -d bluestock_db -f database/init.sql
+
+Replace your_pg_user with your actual PostgreSQL username.
+
+### 4. Configure Environment Variables
+
+Create a .env file inside your /server folder with the following:
+
+```.env
+
+PORT=5000
+DATABASE_URL=postgresql://your_pg_user:your_pg_password@localhost:5432/bluestock_db
+
+### 5. Run the Application
+
+From the project root:
+Start the backend:
+
+```bash
+cd server
+npm start
+Start the frontend:
+
+```bash
+cd ../
 npm run dev
-```
 
-**Edit a file directly in GitHub**
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+📁 Project Structure
 
-**Use GitHub Codespaces**
+```bash
+├── server/             # Express backend
+│   ├── routes/         # API endpoints
+│   ├── models/         # DB connection
+│   └── .env            # Environment variables
+├── src/                # React frontend
+│   ├── components/     # Reusable UI
+│   ├── pages/          # Routes like ManageIPO, Dashboard
+│   └── App.tsx         # Main router setup
+├── public/             # Static files
+├── database/init.sql   # PostgreSQL schema + sample data
+├── .gitignore
+└── README.md
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+🔒 Protected Routes
 
-## What technologies are used for this project?
+1:Pages like ManageIPO are protected and require authentication.
 
-This project is built with:
+2:Admins have access to registration & dashboard.
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+3:Users can browse IPOs, educational modules, and trading data.
 
-## How can I deploy this project?
+🙋‍♂️ Contributions & Issues
 
-Simply open [Lovable](https://lovable.dev/projects/ee6688c2-6a8d-4dfb-be7e-53de42b52d4f) and click on Share -> Publish.
+Pull requests are welcome! For major changes, please open an issue first.
 
-## Can I connect a custom domain to my Lovable project?
+📄 License
 
-Yes, you can!
+MIT License
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+👨‍💻 Developed by Abhinav Kumar
